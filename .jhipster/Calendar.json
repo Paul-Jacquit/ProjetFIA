@@ -1,0 +1,15 @@
+{
+    "fluentMethods": true,
+    "clientRootFolder": "",
+    "relationships": [],
+    "fields": [],
+    "changelogDate": "20200113140034",
+    "dto": "no",
+    "searchEngine": false,
+    "service": "no",
+    "entityTableName": "calendar",
+    "databaseType": "sql",
+    "readOnly": true,
+    "jpaMetamodelFiltering": false,
+    "pagination": "no"
+}

@@ -21,6 +21,7 @@ import org.springframework.web.filter.CorsFilter;
 import javax.servlet.*;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Paths;
 import java.util.*;
@@ -39,9 +40,10 @@ public class WebConfigurer implements ServletContextInitializer, WebServerFactor
 
     private final JHipsterProperties jHipsterProperties;
 
-    public WebConfigurer(Environment env, JHipsterProperties jHipsterProperties) {
+    public WebConfigurer(Environment env, JHipsterProperties jHipsterProperties) throws MalformedURLException, ClassNotFoundException {
         this.env = env;
         this.jHipsterProperties = jHipsterProperties;
+
     }
 
     @Override
@@ -119,9 +121,7 @@ public class WebConfigurer implements ServletContextInitializer, WebServerFactor
     private void initCachingHttpHeadersFilter(ServletContext servletContext,
                                               EnumSet<DispatcherType> disps) {
         log.debug("Registering Caching HTTP Headers Filter");
-        FilterRegistration.Dynamic cachingHttpHeadersFilter =
-            servletContext.addFilter("cachingHttpHeadersFilter",
-                new CachingHttpHeadersFilter(jHipsterProperties));
+        FilterRegistration.Dynamic cachingHttpHeadersFilter = servletContext.addFilter("cachingHttpHeadersFilter", new CachingHttpHeadersFilter(jHipsterProperties));
 
         cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/i18n/*");
         cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true, "/content/*");

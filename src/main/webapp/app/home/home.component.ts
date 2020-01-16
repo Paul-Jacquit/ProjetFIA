@@ -13,6 +13,7 @@ import { Account } from 'app/core/user/account.model';
 export class HomeComponent implements OnInit, OnDestroy {
   account: Account | null = null;
   authSubscription?: Subscription;
+  leMenu = '';
 
   constructor(private accountService: AccountService, private loginModalService: LoginModalService) {}
 
@@ -20,8 +21,36 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.authSubscription = this.accountService.getAuthenticationState().subscribe(account => (this.account = account));
   }
 
+  importMenuRestoU(): void {
+    let url =
+      "http://query.yahooapis.com/v1/public/yql?q=select * from xml where url='http://dailyjs.com/atom.xml' and itemPath='feed.entry'&format=json&diagnostics=true&callback=JSON_CALLBACK";
+    url = 'https://www.data.gouv.fr/fr/datasets/r/0e08266e-0c9a-4b27-a4d6-235de261c5d3';
+    url = 'http://webservices-v2.crous-mobile.fr:8080/feed/bordeaux/externe/resto.xml';
+    this.leMenu = '';
+    let localLeMenu = '';
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', url);
+    xhr.setRequestHeader('Access-Control-Allow-Headers', '*');
+    xhr.setRequestHeader('Access-Control-Allow-Headers', 'Origin');
+    xhr.onload = function(): string {
+      if (xhr.status === 200) {
+        localLeMenu = xhr.responseText;
+        return 'ok';
+      } else {
+        //  console.log('Request failed.  Returned status of ' + xhr.status);
+        return 'error';
+      }
+    };
+    this.leMenu = localLeMenu;
+    xhr.send();
+  }
   isAuthenticated(): boolean {
     return this.accountService.isAuthenticated();
+  }
+
+  donneLeMenu(): string {
+    this.importMenuRestoU();
+    return this.leMenu;
   }
 
   login(): void {

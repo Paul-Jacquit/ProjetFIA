@@ -26,7 +26,10 @@
         }
       },
       "prefix": "jhi",
-      "architect": {}
+      "architect": {},
+      "styles": [
+        "node_modules/@nebular/theme/styles/prebuilt/default.css" // or dark.css
+      ]
     }
   },
   "defaultProject": "projet-fia",

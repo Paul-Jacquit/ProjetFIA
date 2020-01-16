@@ -1,41 +1,47 @@
 <div class="row">
     <div class="col-md-3">
-        <span class="hipster img-fluid rounded"></span>
+        <div class="row-md-4">
+            <div class="col-md-12">EDT</div>
+        </div>
+        <div class="row-md-4">
+            <div class="col-md-12">DRIVE</div>
+        </div>
+        <div class="row-md-4">
+            <div class="col-md-12">MENU</div>
+        </div>
     </div>
     <div class="col-md-9">
-        <h1 class="display-4">Welcome, Java Hipster!</h1>
-        <p class="lead">This is your homepage</p>
-
         <div [ngSwitch]="isAuthenticated()">
-            <div class="alert alert-success" *ngSwitchCase="true">
-                <span id="home-logged-message" *ngIf="account"
-                   > You are logged in as user "{{account.login}}". </span>
-            </div>
+            <div *ngSwitchCase="true">
+                <h1 class="display-4">Bienvenue sur le Projet FIA, {{account.login}}!</h1>
+                <p class="lead">Vous êtes connecter. Profitez du livechat ;)</p>
+                <nb-chat title="Nebular Conversational UI">
+                    <nb-chat-message *ngFor="let msg of messages"
+                                     [type]="msg.type"
+                                     [message]="msg.text"
+                                     [reply]="msg.reply"
+                                     [sender]="msg.user.name"
+                                     [date]="msg.date"
+                                     [files]="msg.files"
+                                     [quote]="msg.quote"
+                                     [latitude]="msg.latitude"
+                                     [longitude]="msg.longitude"
+                                     [avatar]="msg.user.avatar">
+                    </nb-chat-message>
 
-            <div class="alert alert-warning" *ngSwitchCase="false">
-                <span>If you want to </span>
-                <a class="alert-link" (click)="login()">sign in</a><span>, you can try the default accounts:<br/>- Administrator (login="admin" and password="admin") <br/>- User (login="user" and password="user").</span>
-            </div>
-            <div class="alert alert-warning" *ngSwitchCase="false">
-                <span>You don't have an account yet?</span>&nbsp;
-                <a class="alert-link" routerLink="account/register">Register a new account</a>
+                    <nb-chat-form (send)="sendMessage($event)" [dropFiles]="true">
+                    </nb-chat-form>
+                </nb-chat>
             </div>
         </div>
-
-        <p>
-            If you have any question on JHipster:
-        </p>
-
-        <ul>
-            <li><a href="https://www.jhipster.tech/" target="_blank" rel="noopener noreferrer">JHipster homepage</a></li>
-            <li><a href="http://stackoverflow.com/tags/jhipster/info" target="_blank" rel="noopener noreferrer">JHipster on Stack Overflow</a></li>
-            <li><a href="https://github.com/jhipster/generator-jhipster/issues?state=open" target="_blank" rel="noopener noreferrer">JHipster bug tracker</a></li>
-            <li><a href="https://gitter.im/jhipster/generator-jhipster" target="_blank" rel="noopener noreferrer">JHipster public chat room</a></li>
-            <li><a href="https://twitter.com/jhipster" target="_blank" rel="noopener noreferrer">follow @jhipster on Twitter</a></li>
-        </ul>
-
-        <p>
-            <span>If you like JHipster, don't forget to give us a star on</span> <a href="https://github.com/jhipster/generator-jhipster" target="_blank" rel="noopener noreferrer">GitHub</a>!
-        </p>
+        <div [ngSwitch]="isAuthenticated()">
+            <div *ngSwitchCase="false">
+                <h1 class="display-4">Bienvenue sur le Projet FIA !</h1>
+                <p class="lead">Vous pouvez vous <a class="alert-link" (click)="login()">connecter ici</a>.</p>
+                <div>
+                le menu : {{ donneLeMenu() }}
+                </div>
+            </div>
+        </div>
     </div>
 </div>

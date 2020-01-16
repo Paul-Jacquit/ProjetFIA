@@ -15,7 +15,9 @@ import com.google.api.services.drive.DriveScopes;
 import com.google.api.services.drive.model.File;
 import com.google.api.services.drive.model.FileList;
 import org.springframework.stereotype.Service;
+import projetfia.domain.DriveFile;
 
+import javax.validation.constraints.Null;
 import java.io.*;
 import java.security.GeneralSecurityException;
 import java.util.ArrayList;
@@ -69,6 +71,8 @@ public class DriveService {
         return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
     }
 
+    /*******/
+
     public List<File> listFiles() throws IOException {
         FileList result = driveService.files().list()
             .setPageSize(10)
@@ -78,25 +82,34 @@ public class DriveService {
         return files;
     }
 
-    public void uploadFile() throws IOException {
+    public void uploadFile(DriveFile driveFile) throws IOException {
         File fileMetadata = new File();
-        fileMetadata.setName("test_upload.docx");
+        fileMetadata.setName(driveFile.getName());
         //List<String> testListOfFiles = new ArrayList<>();
         //testListOfFiles.add(;
-        fileMetadata.setParents(Collections.singletonList("16NY44_FHwg9IWxonbeVKVTgvX-wU3nJd"));
-        java.io.File filePath = new java.io.File("test_upload.docx");
-        FileContent mediaContent = new FileContent("application/vnd.openxmlformats-officedocument.wordprocessingml.document", filePath);
+        if (driveFile.getParentId() != null)
+            fileMetadata.setParents(Collections.singletonList(driveFile.getParentId()));
+        FileContent mediaContent = new FileContent(driveFile.getMimeType(), driveFile.getFilePath());
         File file = driveService.files().create(fileMetadata, mediaContent)
             .setFields("id, parents")
             .execute();
+        driveFile.setId(file.getId());
         System.out.println("File ID: " + file.getId());
     }
 
-    public void downLoadFile(String fileID) throws IOException {
-
-        OutputStream out = new FileOutputStream("test_export.docx");
-            driveService.files().export(fileID,
-            "application/vnd.openxmlformats-officedocument.wordprocessingml.document")
+        public void downLoadFile(DriveFile driveFile) throws IOException {
+            OutputStream out = new FileOutputStream(driveFile.getName());
+            driveService.files().export(driveFile.getId(),
+            driveFile.getMimeType())
             .executeMediaAndDownloadTo(out);
+    }
+
+    public File getFileById(String id) throws IOException {
+        List<File> fileList = listFiles();
+        for(int i=0;i<fileList.size();i++){
+            if(id.equals(fileList.get(i).getId()))
+                return fileList.get(i);
+        }
+        return null;
     }
 }

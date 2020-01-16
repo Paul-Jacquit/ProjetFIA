@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import projetfia.ProjetFiaApp;
+import projetfia.domain.DriveFile;
 
 import javax.mail.internet.MimeMessage;
 
@@ -27,19 +28,24 @@ public class DriveServiceIT {
         ArrayList<File> files;
         files=(ArrayList<File>) driveService.listFiles();
         for(int i=0;i<files.size();i++){
-            System.out.println(files.get(i).getName()+" "+files.get(i).getId());
+            System.out.println(files.get(i).getName()+" "+files.get(i).getId()+" "+files.get(i).getMimeType());
         }
         assertThat(files).size().isNotEqualTo(0);
     }
 
     @Test
     public void testExportFile() throws IOException {
-       driveService.downLoadFile("1_zXXIHbRxRvoSl4OOFSEpj-hjl3BNWAcq-jSUNX4Uzg");
+        File file = driveService.getFileById("1_zXXIHbRxRvoSl4OOFSEpj-hjl3BNWAcq-jSUNX4Uzg");
+        DriveFile driveFile = new DriveFile(file.getId(), file.getName(), "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+            "./");
+        System.out.println("name = "+file.getName());
+        driveService.downLoadFile(driveFile);
     }
 
     @Test
     public void testUploadFile() throws IOException {
-        driveService.uploadFile();
+        DriveFile driveFile = new DriveFile("testUpload","image/jpeg","./Université_Bordeaux_(Logo_2013).jpg");
+        driveService.uploadFile(driveFile);
     }
 
 }

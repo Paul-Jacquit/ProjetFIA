@@ -6,13 +6,7 @@ import { HOME_ROUTE } from './home.route';
 import { HomeComponent } from './home.component';
 
 @NgModule({
-  imports: [
-    ProjetFiaSharedModule,
-    RouterModule.forChild([HOME_ROUTE]),
-    NbLayoutModule,
-    NbSidebarModule, // NbSidebarModule.forRoot(), //if this is your app.module
-    NbButtonModule
-  ],
+  imports: [ProjetFiaSharedModule, RouterModule.forChild([HOME_ROUTE])],
   declarations: [HomeComponent]
 })
 export class ProjetFiaHomeModule {}

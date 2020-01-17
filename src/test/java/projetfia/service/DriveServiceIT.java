@@ -2,6 +2,7 @@ package projetfia.service;
 
 
 import com.google.api.services.drive.model.File;
+import org.apache.tika.mime.MimeTypeException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -34,9 +35,9 @@ public class DriveServiceIT {
     }
 
     @Test
-    public void testExportFile() throws IOException {
-        File file = driveService.getFileById("1_zXXIHbRxRvoSl4OOFSEpj-hjl3BNWAcq-jSUNX4Uzg");
-        DriveFile driveFile = new DriveFile(file.getId(), file.getName(), "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    public void testExportFile() throws IOException, MimeTypeException {
+        File file = driveService.getFileById("1_HG-GSyjkfF3B6EgpIaxUYEaomzkqc-I");
+        DriveFile driveFile = new DriveFile(file.getId(), file.getName(), file.getMimeType(),
             "./");
         System.out.println("name = "+file.getName());
         driveService.downLoadFile(driveFile);
@@ -46,6 +47,16 @@ public class DriveServiceIT {
     public void testUploadFile() throws IOException {
         DriveFile driveFile = new DriveFile("testUpload","image/jpeg","./Université_Bordeaux_(Logo_2013).jpg");
         driveService.uploadFile(driveFile);
+    }
+
+    @Test
+    public void testHasDoubleExtension(){
+        assertThat(driveService.hasDoubleExtension("testSubString.jpeg.jpeg")).isTrue();
+    }
+
+    @Test
+    public void testDeleteDoubleExtension(){
+        assertThat(driveService.deleteDoubleExtension("test.jpeg.jpeg")).isEqualTo("test.jpeg");
     }
 
 }

@@ -14,7 +14,11 @@ import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.DriveScopes;
 import com.google.api.services.drive.model.File;
 import com.google.api.services.drive.model.FileList;
+import org.apache.tika.mime.MimeType;
+import org.apache.tika.mime.MimeTypeException;
+import org.apache.tika.mime.MimeTypes;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import projetfia.domain.DriveFile;
 
 import javax.validation.constraints.Null;
@@ -76,7 +80,7 @@ public class DriveService {
     public List<File> listFiles() throws IOException {
         FileList result = driveService.files().list()
             .setPageSize(10)
-            .setFields("nextPageToken, files(id, name)")
+            .setFields("nextPageToken, files(id, name, mimeType)")
             .execute();
         List<File> files = result.getFiles();
         return files;
@@ -97,10 +101,13 @@ public class DriveService {
         System.out.println("File ID: " + file.getId());
     }
 
-        public void downLoadFile(DriveFile driveFile) throws IOException {
-            OutputStream out = new FileOutputStream(driveFile.getName());
-            driveService.files().export(driveFile.getId(),
-            driveFile.getMimeType())
+    public void downLoadFile(DriveFile driveFile) throws IOException, MimeTypeException {
+        driveFile = addExtensionToName(driveFile);
+        if(hasDoubleExtension(driveFile.getName())){
+            driveFile.setName(deleteDoubleExtension(driveFile.getName()));
+        }
+        OutputStream out = new FileOutputStream(driveFile.getName());
+        driveService.files().get(driveFile.getId())
             .executeMediaAndDownloadTo(out);
     }
 
@@ -111,5 +118,32 @@ public class DriveService {
                 return fileList.get(i);
         }
         return null;
+    }
+
+    private DriveFile addExtensionToName(DriveFile driveFile) throws MimeTypeException {
+        MimeTypes allTypes = MimeTypes.getDefaultMimeTypes();
+        MimeType mimeType = allTypes.forName(driveFile.getMimeType());
+        String extension = mimeType.getExtension();
+        String newFileName = driveFile.getName()+extension;
+        driveFile.setName(newFileName);
+        return driveFile;
+    }
+
+    public boolean hasDoubleExtension(String fileName) {
+        if(StringUtils.countOccurrencesOf(fileName, ".")<2)
+            return false;
+        else {
+            String[] splittedFileName  = fileName.split("\\.");
+            String whatIsAfterLastExtension = splittedFileName[splittedFileName.length-1];
+            String whatIsAfterSecondToLastExtension = splittedFileName[splittedFileName.length-2];
+            if(whatIsAfterLastExtension.equals(whatIsAfterSecondToLastExtension))
+                return true;
+        }
+        return false;
+    }
+
+    public String deleteDoubleExtension(String fileName){
+        fileName = fileName.substring(0,fileName.lastIndexOf("."));
+        return fileName;
     }
 }

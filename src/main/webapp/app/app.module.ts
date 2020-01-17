@@ -14,6 +14,7 @@ import { FooterComponent } from './layouts/footer/footer.component';
 import { PageRibbonComponent } from './layouts/profiles/page-ribbon.component';
 import { ErrorComponent } from './layouts/error/error.component';
 import { NbThemeModule } from '@nebular/theme';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   imports: [
@@ -24,6 +25,7 @@ import { NbThemeModule } from '@nebular/theme';
     // jhipster-needle-angular-add-module JHipster will add new module here
     ProjetFiaEntityModule,
     ProjetFiaAppRoutingModule,
+    BrowserAnimationsModule,
     NbThemeModule.forRoot()
   ],
   declarations: [MainComponent, NavbarComponent, ErrorComponent, PageRibbonComponent, FooterComponent],

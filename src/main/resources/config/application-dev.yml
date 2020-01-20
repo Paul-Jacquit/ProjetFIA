@@ -37,7 +37,7 @@ spring:
       indent-output: true
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
-    url: jdbc:h2:file:./target/h2db/db/projetfia;DB_CLOSE_DELAY=-1
+    url: jdbc:h2:file:./target/h2db/db/projetfia;DB_CLOSE_DELAY=-1;AUTO_SERVER=TRUE;
     username: projetFIA
     password:
     hikari:
@@ -56,9 +56,12 @@ spring:
       hibernate.cache.use_second_level_cache: true
       hibernate.cache.use_query_cache: false
       hibernate.generate_statistics: false
+  #    hibernate.hbm2ddl.auto: create-drop
+
   liquibase:
     # Remove 'faker' if you do not want the sample data to be loaded automatically
-    contexts: dev, faker
+    contexts: dev
+    drop-first: true
   mail:
     host: localhost
     port: 25

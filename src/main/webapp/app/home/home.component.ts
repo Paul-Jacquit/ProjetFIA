@@ -4,7 +4,6 @@ import { Subscription } from 'rxjs';
 import { LoginModalService } from 'app/core/login/login-modal.service';
 import { AccountService } from 'app/core/auth/account.service';
 import { Account } from 'app/core/user/account.model';
-import { IMessage, Message } from 'app/shared/model/message.model';
 
 @Component({
   selector: 'jhi-home',
@@ -14,15 +13,8 @@ import { IMessage, Message } from 'app/shared/model/message.model';
 export class HomeComponent implements OnInit, OnDestroy {
   account: Account | null = null;
   authSubscription?: Subscription;
-  messages?: IMessage[];
 
-  constructor(private accountService: AccountService, private loginModalService: LoginModalService) {
-    const lesMessageDeTest = [
-      new Message(1, 'salut', 'paul', false, new Date(), 'text'),
-      new Message(2, 'coucou', 'edwin', true, new Date(), 'text')
-    ];
-    this.messages = lesMessageDeTest;
-  }
+  constructor(private accountService: AccountService, private loginModalService: LoginModalService) {}
 
   ngOnInit(): void {
     this.authSubscription = this.accountService.getAuthenticationState().subscribe(account => (this.account = account));

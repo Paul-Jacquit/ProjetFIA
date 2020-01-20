@@ -2,9 +2,7 @@
     <p class="lead">Vous êtes connecter. Profitez du livechat ;)</p>
     <nb-chat title="Nebular Conversational UI">
         <nb-chat-message *ngFor="let msg of messages"
-                         [type]="msg.type"
                          [message]="msg.text"
-                         [reply]="msg.reply"
                          [sender]="msg.user"
                          [date]="msg.date">
         </nb-chat-message>

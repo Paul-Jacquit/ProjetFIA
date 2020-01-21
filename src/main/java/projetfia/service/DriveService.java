@@ -23,6 +23,7 @@ import projetfia.domain.DriveFile;
 
 import javax.validation.constraints.Null;
 import java.io.*;
+import java.nio.file.Files;
 import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -80,7 +81,7 @@ public class DriveService {
     public List<File> listFiles() throws IOException {
         FileList result = driveService.files().list()
             .setPageSize(10)
-            .setFields("nextPageToken, files(id, name, mimeType)")
+            .setFields("nextPageToken, files(id, name, mimeType, parents)")
             .execute();
         List<File> files = result.getFiles();
         return files;
@@ -99,6 +100,17 @@ public class DriveService {
             .execute();
         driveFile.setId(file.getId());
         System.out.println("File ID: " + file.getId());
+    }
+
+    public void uploadFile(java.io.File file) throws IOException {
+        File fileMetadata = new File();
+        fileMetadata.setName(file.getName());
+        /* TODO enlever l'id du parent en dur et le passer via le HTTP comme parametre selon utilisateur */
+        fileMetadata.setParents(Collections.singletonList("16NY44_FHwg9IWxonbeVKVTgvX-wU3nJd"));
+        FileContent mediaContent = new FileContent(Files.probeContentType(file.toPath()), file);
+        driveService.files().create(fileMetadata, mediaContent)
+            .setFields("id, parents")
+            .execute();
     }
 
     public void downLoadFile(DriveFile driveFile) throws IOException, MimeTypeException {

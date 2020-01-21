@@ -23,4 +23,22 @@ export class DriveService {
     const options = createRequestOption(req);
     return this.http.get<IDrive[]>(this.resourceUrl, { params: options, observe: 'response' });
   }
+
+  public sendFormData(file: any): Observable<any> {
+    const formData = new FormData();
+    const options = createRequestOption(file);
+    formData.append('file', file, file.name);
+    alert('sending to ' + this.resourceUrl);
+    return this.http.post(this.resourceUrl, formData, { params: options, observe: 'response', reportProgress: true });
+  }
+
+  postFile(file: any): Observable<File> {
+    const options = createRequestOption(file);
+    return this.http.post<File>(this.resourceUrl, { params: options, observe: 'response' });
+  }
+  /*
+  getAllFiles(): Observable<EntityResponseType>{
+    return this.http.get<FileList>(this.resourceUrl, {observe: 'response'});
+  }
+ */
 }

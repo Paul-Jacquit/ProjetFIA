@@ -30,6 +30,7 @@ public class DriveServiceIT {
         files=(ArrayList<File>) driveService.listFiles();
         for(int i=0;i<files.size();i++){
             System.out.println(files.get(i).getName()+" "+files.get(i).getId()+" "+files.get(i).getMimeType());
+            System.out.println(files.get(i).getParents());
         }
         assertThat(files).size().isNotEqualTo(0);
     }

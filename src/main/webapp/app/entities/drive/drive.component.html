@@ -8,6 +8,20 @@
     <div class="alert alert-warning" *ngIf="drives?.length === 0">
         <span>No drives found</span>
     </div>
+    <iframe src="https://drive.google.com/embeddedfolderview?id=16NY44_FHwg9IWxonbeVKVTgvX-wU3nJd#grid" width="600"
+            height="500" frameborder="0"></iframe>
+    <h1>Ajouter un nouveau fichier</h1>
+    <div class="form-group">
+        <label for="file">Choisir un fichier</label>
+        <input type="file" id="file" (change)="sendFile($event.target.files)"/>
+        <button class="input-btn" (click)="sendFileByService()">Upload</button>
+    </div>
+    <!-- TODO barre de progression -->
+    <div class="progress form-group" *ngIf="progress > 0">
+        <div class="progress-bar progress-bar-striped bg-success" role="progressbar" [style.width.%]="progress">
+        </div>
+    </div>
+    <!------------------------------->
     <div class="table-responsive" *ngIf="drives?.length > 0">
         <table class="table table-striped" aria-describedby="page-heading">
             <thead>

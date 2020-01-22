@@ -20,6 +20,7 @@ import org.apache.tika.mime.MimeTypes;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import projetfia.domain.DriveFile;
+import projetfia.security.SecurityUtils;
 
 import javax.validation.constraints.Null;
 import java.io.*;
@@ -158,4 +159,9 @@ public class DriveService {
         fileName = fileName.substring(0,fileName.lastIndexOf("."));
         return fileName;
     }
+
+    /*
+    public String getFolderRegardingUserType(){
+    }
+     */
 }

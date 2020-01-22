@@ -8,8 +8,22 @@
     <div class="alert alert-warning" *ngIf="drives?.length === 0">
         <span>No drives found</span>
     </div>
-    <iframe src="https://drive.google.com/embeddedfolderview?id=16NY44_FHwg9IWxonbeVKVTgvX-wU3nJd#grid" width="600"
-            height="500" frameborder="0"></iframe>
+    <div *jhiHasAnyAuthority="'ROLE_ADMIN'">
+        <iframe src="https://drive.google.com/embeddedfolderview?id=16NY44_FHwg9IWxonbeVKVTgvX-wU3nJd#grid" width="600"
+                height="500" frameborder="0"></iframe>
+    </div>
+    <div *jhiHasAnyAuthority="'ROLE_M2'">
+        <iframe src="https://drive.google.com/embeddedfolderview?id=16rXd2RePECfrAA7H8U2YyPHj911t5Obn#grid" width="600"
+                height="500" frameborder="0"></iframe>
+    </div>
+    <div *jhiHasAnyAuthority="'ROLE_M1'">
+        <iframe src="https://drive.google.com/embeddedfolderview?id=10fHbV8sIOeSI7PD7_DmgwgooRPvECewA#grid" width="600"
+                height="500" frameborder="0"></iframe>
+    </div>
+    <div *jhiHasAnyAuthority="'ROLE_L3'">
+        <iframe src="https://drive.google.com/embeddedfolderview?id=13BovpYwztmQWQDlVU04o-Zl51GngiIor#grid" width="600"
+                height="500" frameborder="0"></iframe>
+    </div>
     <h1>Ajouter un nouveau fichier</h1>
     <div class="form-group">
         <label for="file">Choisir un fichier</label>

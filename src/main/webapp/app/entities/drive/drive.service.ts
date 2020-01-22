@@ -28,8 +28,15 @@ export class DriveService {
     const formData = new FormData();
     const options = createRequestOption(file);
     formData.append('file', file, file.name);
+    file = formData.get('file');
+    alert('file name is :' + file.name);
     alert('sending to ' + this.resourceUrl);
-    return this.http.post(this.resourceUrl, formData, { params: options, observe: 'response', reportProgress: true });
+    return this.http.post(this.resourceUrl, formData, {
+      params: options,
+      observe: 'response',
+      withCredentials: true,
+      reportProgress: true
+    });
   }
 
   postFile(file: any): Observable<File> {

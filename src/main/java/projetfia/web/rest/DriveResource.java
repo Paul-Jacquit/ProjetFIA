@@ -2,6 +2,7 @@ package projetfia.web.rest;
 
 import com.google.api.services.drive.model.FileList;
 
+import io.undertow.server.handlers.form.FormData;
 import org.apache.commons.io.FileUtils;
 import org.springframework.web.multipart.MultipartFile;
 import projetfia.domain.Drive;
@@ -76,8 +77,9 @@ public class DriveResource {
     public void uploadFile(@RequestParam("file") MultipartFile multiPartFile) throws GeneralSecurityException, IOException {
         log.debug("REST request to upload a file");
         DriveService driveService = new DriveService();
-        File file = new File(multiPartFile.getName());
+        File file = new File(multiPartFile.getOriginalFilename());
         FileUtils.writeByteArrayToFile(file, multiPartFile.getBytes());
         driveService.uploadFile(file);
+        file.delete();
     }
 }

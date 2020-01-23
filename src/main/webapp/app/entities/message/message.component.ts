@@ -6,7 +6,6 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { IMessage, Message } from 'app/shared/model/message.model';
 import { MessageService } from './message.service';
-import { MessageDeleteDialogComponent } from './message-delete-dialog.component';
 
 @Component({
   selector: 'jhi-message',
@@ -37,11 +36,6 @@ export class MessageComponent implements OnInit, OnDestroy {
 
   registerChangeInMessages(): void {
     this.eventSubscriber = this.eventManager.subscribe('messageListModification', () => this.loadAll());
-  }
-
-  delete(message: IMessage): void {
-    const modalRef = this.modalService.open(MessageDeleteDialogComponent, { size: 'lg', backdrop: 'static' });
-    modalRef.componentInstance.message = message;
   }
 
   sendMessage($event: { message: string; files: File[] }): void {

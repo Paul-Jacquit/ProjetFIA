@@ -20,7 +20,7 @@ describe('Service Tests', () => {
       service = injector.get(MessageService);
       httpMock = injector.get(HttpTestingController);
 
-      elemDefault = new Message(0, 'AAAAAAA', 'AAAAAAA', true);
+      elemDefault = new Message('aaaa', 'AAAAAAA', true, new Date());
     });
 
     describe('Service methods', () => {

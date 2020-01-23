@@ -33,7 +33,7 @@ describe('Component Tests', () => {
       spyOn(service, 'query').and.returnValue(
         of(
           new HttpResponse({
-            body: [new Message(123)],
+            body: [new Message(undefined)],
             headers
           })
         )

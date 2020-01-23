@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 import { LoginModalService } from 'app/core/login/login-modal.service';
 import { AccountService } from 'app/core/auth/account.service';
 import { Account } from 'app/core/user/account.model';
+import { MenuruService } from './menuru.service';
 
 @Component({
   selector: 'jhi-home',
@@ -15,13 +16,18 @@ export class HomeComponent implements OnInit, OnDestroy {
   authSubscription?: Subscription;
   leMenu = '';
 
-  constructor(private accountService: AccountService, private loginModalService: LoginModalService) {}
+  constructor(private accountService: AccountService, private loginModalService: LoginModalService, private leMenuRU: MenuruService) {}
 
   ngOnInit(): void {
+    this.leMenu = this.leMenuRU.get().toString();
+    console.log(this.leMenu.toString);
     this.authSubscription = this.accountService.getAuthenticationState().subscribe(account => (this.account = account));
   }
 
   importMenuRestoU(): void {
+    this.leMenuRU.get();
+    /*
+    getMenuGouvURL();
     let url =
       "http://query.yahooapis.com/v1/public/yql?q=select * from xml where url='http://dailyjs.com/atom.xml' and itemPath='feed.entry'&format=json&diagnostics=true&callback=JSON_CALLBACK";
     url = 'https://www.data.gouv.fr/fr/datasets/r/0e08266e-0c9a-4b27-a4d6-235de261c5d3';
@@ -43,13 +49,13 @@ export class HomeComponent implements OnInit, OnDestroy {
     };
     this.leMenu = localLeMenu;
     xhr.send();
+    */
   }
   isAuthenticated(): boolean {
     return this.accountService.isAuthenticated();
   }
 
   donneLeMenu(): string {
-    this.importMenuRestoU();
     return this.leMenu;
   }
 

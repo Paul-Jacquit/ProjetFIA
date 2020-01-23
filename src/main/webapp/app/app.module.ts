@@ -13,7 +13,6 @@ import { NavbarComponent } from './layouts/navbar/navbar.component';
 import { FooterComponent } from './layouts/footer/footer.component';
 import { PageRibbonComponent } from './layouts/profiles/page-ribbon.component';
 import { ErrorComponent } from './layouts/error/error.component';
-import { NbThemeModule } from '@nebular/theme';
 
 @NgModule({
   imports: [
@@ -23,8 +22,7 @@ import { NbThemeModule } from '@nebular/theme';
     ProjetFiaHomeModule,
     // jhipster-needle-angular-add-module JHipster will add new module here
     ProjetFiaEntityModule,
-    ProjetFiaAppRoutingModule,
-    NbThemeModule.forRoot()
+    ProjetFiaAppRoutingModule
   ],
   declarations: [MainComponent, NavbarComponent, ErrorComponent, PageRibbonComponent, FooterComponent],
   bootstrap: [MainComponent]

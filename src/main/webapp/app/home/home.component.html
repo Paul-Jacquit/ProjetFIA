@@ -17,10 +17,11 @@
             </div>
         </div>
         <div [ngSwitch]="isAuthenticated()">
-            <div *ngSwitchCase="false">
+            <div *ngSwitchCase="true">
                 <h1 class="display-4">Bienvenue sur le Projet FIA !</h1>
                 <p class="lead">Vous pouvez vous <a class="alert-link" (click)="login()">connecter ici</a>.</p>
                 <div>
+                    <button (click)="importMenuRestoU()"></button>
                 le menu : {{ donneLeMenu() }}
                 </div>
             </div>

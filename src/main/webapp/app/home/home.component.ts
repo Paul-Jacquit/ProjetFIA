@@ -25,22 +25,25 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   importMenuRestoU(): void {
-    this.leMenuRU.get();
-    /*
-    getMenuGouvURL();
+    //this.leMenuRU.get();
+
+    //getMenuGouvURL();
     let url =
       "http://query.yahooapis.com/v1/public/yql?q=select * from xml where url='http://dailyjs.com/atom.xml' and itemPath='feed.entry'&format=json&diagnostics=true&callback=JSON_CALLBACK";
     url = 'https://www.data.gouv.fr/fr/datasets/r/0e08266e-0c9a-4b27-a4d6-235de261c5d3';
     url = 'http://webservices-v2.crous-mobile.fr:8080/feed/bordeaux/externe/resto.xml';
+    url = '/api/get-menu-ru/get-menu-gouv-url';
     this.leMenu = '';
-    let localLeMenu = '';
+    let localLeMenu = JSON.stringify({
+      Menu: 'Erreur',
+      Resto: 'Erreur'
+    });
     const xhr = new XMLHttpRequest();
-    xhr.open('GET', url);
-    xhr.setRequestHeader('Access-Control-Allow-Headers', '*');
-    xhr.setRequestHeader('Access-Control-Allow-Headers', 'Origin');
+    xhr.open('GET', url, true);
+    xhr.setRequestHeader('Content-type', 'application/json');
     xhr.onload = function(): string {
       if (xhr.status === 200) {
-        localLeMenu = xhr.responseText;
+        localLeMenu = xhr.response;
         return 'ok';
       } else {
         //  console.log('Request failed.  Returned status of ' + xhr.status);
@@ -48,8 +51,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       }
     };
     this.leMenu = localLeMenu;
-    xhr.send();
-    */
+    xhr.send(localLeMenu);
   }
   isAuthenticated(): boolean {
     return this.accountService.isAuthenticated();

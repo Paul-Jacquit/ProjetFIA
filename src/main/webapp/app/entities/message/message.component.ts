@@ -39,6 +39,6 @@ export class MessageComponent implements OnInit, OnDestroy {
   }
 
   sendMessage($event: { message: string; files: File[] }): void {
-    this.messageService.create(new Message($event.message, 'Paul', false, new Date(), 'text'));
+    this.messageService.create(new Message($event.message, 'Paul', true, new Date()));
   }
 }

@@ -25,6 +25,9 @@
             <column name="date" type="date">
                 <constraints nullable="false" />
             </column>
+            <column name="reply" type="boolean">
+                <constraints nullable="false" />
+            </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
         <sqlFile path="config/liquibase/data/messageData.sql"/>

@@ -24,10 +24,11 @@ export class DriveService {
     return this.http.get<IDrive[]>(this.resourceUrl, { params: options, observe: 'response' });
   }
 
-  public sendFormData(file: any): Observable<any> {
+  public sendFormData(file: any, role: string): Observable<any> {
     const formData = new FormData();
     const options = createRequestOption(file);
     formData.append('file', file, file.name);
+    formData.append('role', role);
     file = formData.get('file');
     alert('file name is :' + file.name);
     alert('sending to ' + this.resourceUrl);

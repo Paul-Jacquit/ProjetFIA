@@ -103,11 +103,28 @@ public class DriveService {
         System.out.println("File ID: " + file.getId());
     }
 
-    public void uploadFile(java.io.File file) throws IOException {
+    public void uploadFile(java.io.File file, String role) throws IOException {
         File fileMetadata = new File();
         fileMetadata.setName(file.getName());
-        /* TODO enlever l'id du parent en dur et le passer via le HTTP comme parametre selon utilisateur */
-        fileMetadata.setParents(Collections.singletonList("16NY44_FHwg9IWxonbeVKVTgvX-wU3nJd"));
+        /* TODO recup id folder selon son nom */
+        switch(role) {
+            case "ROLE_M2": {
+                fileMetadata.setParents(Collections.singletonList("16rXd2RePECfrAA7H8U2YyPHj911t5Obn"));
+                break;
+            }
+            case "ROLE_M1": {
+                fileMetadata.setParents(Collections.singletonList("10fHbV8sIOeSI7PD7_DmgwgooRPvECewA"));
+                break;
+            }
+            case "ROLE_L3": {
+                fileMetadata.setParents(Collections.singletonList("13BovpYwztmQWQDlVU04o-Zl51GngiIor"));
+                break;
+            }
+            default: {
+                fileMetadata.setParents(Collections.singletonList("16NY44_FHwg9IWxonbeVKVTgvX-wU3nJd"));
+                break;
+            }
+        }
         FileContent mediaContent = new FileContent(Files.probeContentType(file.toPath()), file);
         driveService.files().create(fileMetadata, mediaContent)
             .setFields("id, parents")

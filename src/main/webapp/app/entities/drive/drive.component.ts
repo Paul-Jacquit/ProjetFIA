@@ -6,6 +6,8 @@ import { FileUploader } from 'ng2-file-upload';
 
 import { IDrive } from 'app/shared/model/drive.model';
 import { DriveService } from './drive.service';
+import { accountState } from 'app/account/account.route';
+import { AccountService } from 'app/core/auth/account.service';
 
 @Component({
   selector: 'jhi-drive',
@@ -24,7 +26,24 @@ export class DriveComponent implements OnInit, OnDestroy {
 
   progress?: number = 0;
 
-  constructor(protected driveService: DriveService, protected eventManager: JhiEventManager) {}
+  role = 'DEFAULT';
+
+  constructor(protected driveService: DriveService, protected eventManager: JhiEventManager, protected accountService: AccountService) {}
+
+  setRole(): void {
+    if (this.accountService.hasAnyAuthority('ROLE_ADMIN')) {
+      this.role = 'ROLE_ADMIN';
+    }
+    if (this.accountService.hasAnyAuthority('ROLE_M2')) {
+      this.role = 'ROLE_M2';
+    }
+    if (this.accountService.hasAnyAuthority('ROLE_M1')) {
+      this.role = 'ROLE_M1';
+    }
+    if (this.accountService.hasAnyAuthority('ROLE_L3')) {
+      this.role = 'ROLE_L3';
+    }
+  }
 
   loadAll(): void {
     this.driveService.query().subscribe((res: HttpResponse<IDrive[]>) => {
@@ -40,6 +59,7 @@ export class DriveComponent implements OnInit, OnDestroy {
     this.uploader = new FileUploader({ url: 'api/drives', autoUpload: true, headers });
 
     this.uploader.onCompleteAll = () => alert('File uploaded');
+    this.setRole();
   }
 
   ngOnDestroy(): void {
@@ -53,9 +73,10 @@ export class DriveComponent implements OnInit, OnDestroy {
   }
 
   sendFileByService(): void {
-    this.driveService.sendFormData(this.file).subscribe(
+    this.driveService.sendFormData(this.file, this.role.toString()).subscribe(
       (event: HttpEvent<any>) => {
         if (event.type === HttpEventType.Response) {
+          /* TODO ajouter barre de progression en attendant reponse */
           alert('Upload successfully done!');
           setTimeout(() => {
             this.progress = 0;

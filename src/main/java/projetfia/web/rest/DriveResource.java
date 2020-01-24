@@ -74,12 +74,12 @@ public class DriveResource {
     }
 
     @PostMapping("/drives")
-    public void uploadFile(@RequestParam("file") MultipartFile multiPartFile) throws GeneralSecurityException, IOException {
+    public void uploadFile(@RequestParam("file") MultipartFile multiPartFile, @RequestParam("role") String role) throws GeneralSecurityException, IOException {
         log.debug("REST request to upload a file");
         DriveService driveService = new DriveService();
         File file = new File(multiPartFile.getOriginalFilename());
         FileUtils.writeByteArrayToFile(file, multiPartFile.getBytes());
-        driveService.uploadFile(file);
+        driveService.uploadFile(file,role);
         file.delete();
     }
 }

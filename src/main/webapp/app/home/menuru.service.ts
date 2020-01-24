@@ -8,9 +8,10 @@ import { SERVER_API_URL } from 'app/app.constants';
 export class MenuruService {
   constructor(private http: HttpClient) {}
 
-  get(): String {
-    //Observable<{}> {
-    //return this.http.get(SERVER_API_URL + '/api/get-menu-ru/get-menu-gouv-url');
-    return SERVER_API_URL + '/api/get-menu-ru/get-menu-gouv-url';
+  public resourceUrl = SERVER_API_URL + 'api/get-menu-ru/get-menu-gouv-url';
+
+  public getXMLMenuFile(): Observable<any> {
+    return this.http.get(this.resourceUrl, { responseType: 'text' });
+    //{ params: options, observe: 'response' });
   }
 }

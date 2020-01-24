@@ -21,8 +21,10 @@
                 <h1 class="display-4">Bienvenue sur le Projet FIA !</h1>
                 <p class="lead">Vous pouvez vous <a class="alert-link" (click)="login()">connecter ici</a>.</p>
                 <div>
-                    <button (click)="importMenuRestoU()"></button>
-                le menu : {{ donneLeMenu() }}
+                    <button (click)="getMenu()"></button>
+                </div>
+                <div [ngSwitch]="testBool===true">
+                    le menu : {{ donneLeMenu() }}
                 </div>
             </div>
         </div>

@@ -5,6 +5,7 @@ import { LoginModalService } from 'app/core/login/login-modal.service';
 import { AccountService } from 'app/core/auth/account.service';
 import { Account } from 'app/core/user/account.model';
 import { MenuruService } from './menuru.service';
+import { HttpEvent, HttpEventType } from '@angular/common/http';
 
 @Component({
   selector: 'jhi-home',
@@ -14,16 +15,22 @@ import { MenuruService } from './menuru.service';
 export class HomeComponent implements OnInit, OnDestroy {
   account: Account | null = null;
   authSubscription?: Subscription;
-  leMenu = '';
+  leMenu = 'test';
+  testBool = false;
 
-  constructor(private accountService: AccountService, private loginModalService: LoginModalService, private leMenuRU: MenuruService) {}
+  constructor(private accountService: AccountService, private loginModalService: LoginModalService, private menuruService: MenuruService) {}
 
   ngOnInit(): void {
-    this.leMenu = this.leMenuRU.get().toString();
-    console.log(this.leMenu.toString);
+    //this.leMenu = this.leMenuRU.get().toString();
+    //console.log(this.leMenu.toString);
     this.authSubscription = this.accountService.getAuthenticationState().subscribe(account => (this.account = account));
+    //this.getMenu();
   }
 
+  getMenu(): void {
+    this.menuruService.getXMLMenuFile().subscribe(data => (this.leMenu = data));
+  }
+  /*
   importMenuRestoU(): void {
     //this.leMenuRU.get();
 
@@ -52,12 +59,18 @@ export class HomeComponent implements OnInit, OnDestroy {
     };
     this.leMenu = localLeMenu;
     xhr.send(localLeMenu);
-  }
+  }*/
+
   isAuthenticated(): boolean {
     return this.accountService.isAuthenticated();
   }
 
+  test(): void {
+    this.testBool = true;
+  }
+
   donneLeMenu(): string {
+    //this.getMenu();
     return this.leMenu;
   }
 

@@ -2,10 +2,13 @@ package projetfia.web.rest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.xml.ws.Response;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
@@ -23,7 +26,7 @@ public class GetMenuRUResource {
     * GET getMenuGouvURL
     */
     @GetMapping("/get-menu-gouv-url")
-    public String getMenuGouvURL() {
+    public ResponseEntity<String> getMenuGouvURL() {
             String toreturn = "heyo je communique avec le serveur java spring";
             try {
                 // creation d'un objet URL
@@ -50,7 +53,7 @@ public class GetMenuRUResource {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            return toreturn;
-            //return "getMenuGouvURL heyheyhey";
+            log.debug("to return test= "+toreturn);
+            return new ResponseEntity<String>(toreturn, HttpStatus.OK);
     }
 }

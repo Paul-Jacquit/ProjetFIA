@@ -1,7 +1,6 @@
 @import 'bootstrap-variables';
 @import '~bootstrap/scss/functions';
 @import '~bootstrap/scss/variables';
-@import '~@nebular/theme/styles/prebuilt/default.css';
 
 /* ==============================================================
 Bootstrap tweaks
@@ -194,3 +193,7 @@ ui bootstrap tweaks
 }
 
 /* jhipster-needle-scss-add-main JHipster will add new css style */
+
+nb-chat {
+  max-height: 800px;
+}

@@ -6,20 +6,43 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { IMessage, Message } from 'app/shared/model/message.model';
 import { MessageService } from './message.service';
+import { AccountService } from 'app/core/auth/account.service';
 
 @Component({
   selector: 'jhi-message',
   templateUrl: './message.component.html'
 })
 export class MessageComponent implements OnInit, OnDestroy {
-  messages?: IMessage[];
+  messages: IMessage[];
   eventSubscriber?: Subscription;
+  userLogin?: string;
 
-  constructor(protected messageService: MessageService, protected eventManager: JhiEventManager, protected modalService: NgbModal) {}
+  constructor(
+    protected messageService: MessageService,
+    protected eventManager: JhiEventManager,
+    protected modalService: NgbModal,
+    protected accountService: AccountService
+  ) {
+    this.messages = [];
+
+    this.accountService.identity().subscribe(account => {
+      if (account) {
+        this.userLogin = account.login;
+      }
+    });
+  }
 
   loadAll(): void {
     this.messageService.query().subscribe((res: HttpResponse<IMessage[]>) => {
       this.messages = res.body ? res.body : [];
+
+      for (const m of this.messages) {
+        if (m.user === this.userLogin) {
+          m.reply = true;
+        } else {
+          m.reply = false;
+        }
+      }
     });
   }
 
@@ -39,6 +62,10 @@ export class MessageComponent implements OnInit, OnDestroy {
   }
 
   sendMessage($event: { message: string; files: File[] }): void {
-    this.messageService.create(new Message($event.message, 'Paul', true, new Date()));
+    this.messageService.create(new Message($event.message, this.userLogin, true, new Date())).subscribe((res: HttpResponse<IMessage>) => {
+      if (res.body) {
+        this.messages.push(res.body);
+      }
+    });
   }
 }

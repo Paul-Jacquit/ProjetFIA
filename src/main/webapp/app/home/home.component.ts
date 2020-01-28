@@ -33,4 +33,8 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.authSubscription.unsubscribe();
     }
   }
+
+  sendMessage($event: { message: string; files: File[] }): any {
+    return $event;
+  }
 }

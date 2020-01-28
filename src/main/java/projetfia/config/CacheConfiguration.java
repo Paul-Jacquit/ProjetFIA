@@ -42,7 +42,6 @@ public class CacheConfiguration {
             createCache(cm, projetfia.domain.User.class.getName());
             createCache(cm, projetfia.domain.Authority.class.getName());
             createCache(cm, projetfia.domain.User.class.getName() + ".authorities");
-            createCache(cm, projetfia.domain.Calendar.class.getName());
             createCache(cm, projetfia.domain.Message.class.getName());
             // jhipster-needle-ehcache-add-entry
         };

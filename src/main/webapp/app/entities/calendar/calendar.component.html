@@ -5,8 +5,6 @@
     <jhi-alert-error></jhi-alert-error>
     <jhi-alert></jhi-alert>
     <br/>
-    <div class="alert alert-warning" *ngIf="calendars?.length === 0">
-        <span>No calendars found</span>
     <div *jhiHasAnyAuthority="'ROLE_M2'">
         <div *jhiHasAnyAuthority="'ROLE_FI'" class="responsiveCal">
             <iframe src="https://calendar.google.com/calendar/b/1/embed?height=600&amp;wkst=1&amp;bgcolor=%23ffffff&amp;
@@ -49,31 +47,5 @@
         ctz=Europe%2FParis&amp;mode=WEEK&amp;src=NTltaWxsYzV0aTBuMmFyY3IzYnJsaTFzazlhcnA2N3JAaW1wb3J0LmNhbGVuZGFyLmdvb2dsZS5jb20&amp;
         src=NTcwZDQwZGdhNTBsMDVqZjd0NTg4NTUwZjQ2ZHMydDNAaW1wb3J0LmNhbGVuZGFyLmdvb2dsZS5jb20&amp;color=%23336699&amp;
         color=%23A87070" style="border:solid 1px #777" width="800" height="600" frameborder="0" scrolling="no"></iframe>
-    </div>
-
-    <div class="table-responsive" *ngIf="calendars?.length > 0">
-        <table class="table table-striped" aria-describedby="page-heading">
-            <thead>
-            <tr>
-            <th scope="col" ><span>ID</span></th>
-            <th scope="col"></th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr *ngFor="let calendar of calendars ;trackBy: trackId">
-                <td><a [routerLink]="['/calendar', calendar.id, 'view' ]">{{calendar.id}}</a></td>
-                <td class="text-right">
-                    <div class="btn-group">
-                        <button type="submit"
-                                [routerLink]="['/calendar', calendar.id, 'view' ]"
-                                class="btn btn-info btn-sm">
-                            <fa-icon [icon]="'eye'"></fa-icon>
-                            <span class="d-none d-md-inline">View</span>
-                        </button>
-                    </div>
-                </td>
-            </tr>
-            </tbody>
-        </table>
     </div>
 </div>

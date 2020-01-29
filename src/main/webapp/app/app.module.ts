@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 import './vendor';
 import { ProjetFiaSharedModule } from 'app/shared/shared.module';
@@ -13,6 +14,8 @@ import { NavbarComponent } from './layouts/navbar/navbar.component';
 import { FooterComponent } from './layouts/footer/footer.component';
 import { PageRibbonComponent } from './layouts/profiles/page-ribbon.component';
 import { ErrorComponent } from './layouts/error/error.component';
+import { SafeUrlPipe } from './shared/safe-url.pipe';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   imports: [
@@ -22,9 +25,11 @@ import { ErrorComponent } from './layouts/error/error.component';
     ProjetFiaHomeModule,
     // jhipster-needle-angular-add-module JHipster will add new module here
     ProjetFiaEntityModule,
-    ProjetFiaAppRoutingModule
+    ProjetFiaAppRoutingModule,
+    MatProgressBarModule,
+    BrowserAnimationsModule
   ],
-  declarations: [MainComponent, NavbarComponent, ErrorComponent, PageRibbonComponent, FooterComponent],
+  declarations: [MainComponent, NavbarComponent, ErrorComponent, PageRibbonComponent, FooterComponent, SafeUrlPipe],
   bootstrap: [MainComponent]
 })
 export class ProjetFiaAppModule {}

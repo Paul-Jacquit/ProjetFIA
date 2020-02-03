@@ -20,13 +20,9 @@ import org.apache.tika.mime.MimeTypes;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import projetfia.domain.DriveFile;
-import projetfia.security.SecurityUtils;
-
-import javax.validation.constraints.Null;
 import java.io.*;
 import java.nio.file.Files;
 import java.security.GeneralSecurityException;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 

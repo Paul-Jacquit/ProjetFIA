@@ -7,9 +7,12 @@ eg $input-color: red;
 // Override Bootstrap variables
 @import 'bootstrap-variables';
 // Import Bootstrap source files from node_modules
+@import 'node_modules/bootswatch/dist/solar/variables';
 @import '~bootstrap/scss/bootstrap';
+@import 'node_modules/bootswatch/dist/solar/bootswatch';
 
 /* jhipster-needle-scss-add-vendor JHipster will add new css style */
+@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
 
 //@import 'node_modules/@nebular/theme/styles/prebuilt/default.css';
 @import '~@nebular/theme/styles/prebuilt/default';

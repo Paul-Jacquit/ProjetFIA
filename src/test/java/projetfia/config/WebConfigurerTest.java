@@ -16,6 +16,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import javax.servlet.*;
 import java.io.File;
+import java.net.MalformedURLException;
 import java.util.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -41,7 +42,7 @@ public class WebConfigurerTest {
     private JHipsterProperties props;
 
     @BeforeEach
-    public void setup() {
+    public void setup() throws MalformedURLException, ClassNotFoundException {
         servletContext = spy(new MockServletContext());
         doReturn(mock(FilterRegistration.Dynamic.class))
             .when(servletContext).addFilter(anyString(), any(Filter.class));

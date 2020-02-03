@@ -1,0 +1,77 @@
+<div>
+    <div class="row">
+        <h1 id="page-heading">
+            <span>Drives</span>
+        </h1>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div>
+                <div *jhiHasAnyAuthority="'ROLE_ADMIN'" id="iframe">
+                    <iframe  src="https://drive.google.com/embeddedfolderview?id=16NY44_FHwg9IWxonbeVKVTgvX-wU3nJd#grid" width="100%"
+                            height="350" frameborder="0"></iframe>
+                </div>
+                <div *jhiHasAnyAuthority="'ROLE_M2'">
+                    <iframe src="https://drive.google.com/embeddedfolderview?id=16rXd2RePECfrAA7H8U2YyPHj911t5Obn#grid" width="100%"
+                            height="350" frameborder="0"></iframe>
+                </div>
+                <div *jhiHasAnyAuthority="'ROLE_M1'">
+                    <iframe src="https://drive.google.com/embeddedfolderview?id=10fHbV8sIOeSI7PD7_DmgwgooRPvECewA#grid" width="100%"
+                            height="350" frameborder="0"></iframe>
+                </div>
+                <div *jhiHasAnyAuthority="'ROLE_L3'">
+                    <iframe src="https://drive.google.com/embeddedfolderview?id=13BovpYwztmQWQDlVU04o-Zl51GngiIor#grid" width="600"
+                            height="500" frameborder="0"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <h3>Ajouter un nouveau fichier</h3>
+            <div class="form-group">
+                <label for="file">Choisir un fichier</label>
+                <input type="file" id="file" (change)="sendFile($event.target.files)"/>
+                <button class="input-btn" (click)="sendFileByService()">Upload</button>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="isSending">
+        <mat-progress-bar color="#FF0000" mode="indeterminate"></mat-progress-bar>
+    </div>
+
+<!--    ma barre:-->
+<!--    <div class="progress">-->
+<!--        <div id="maBarre" class="progress-bar" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>-->
+<!--    </div>-->
+<!--    <br>-->
+
+<!--    0%:-->
+<!--    <div class="progress">-->
+<!--        <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>-->
+<!--    </div>-->
+<!--    <br>-->
+
+<!--    25%:-->
+<!--    <div class="progress">-->
+<!--        <div class="progress-bar" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>-->
+<!--    </div>-->
+<!--    <br>-->
+<!--    50%:-->
+<!--    <div class="progress">-->
+<!--        <div class="progress-bar" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>-->
+<!--    </div>-->
+<!--    <br>-->
+<!--    75%:-->
+<!--    <div class="progress">-->
+<!--        <div class="progress-bar" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>-->
+<!--    </div>-->
+<!--    <br>-->
+<!--    100%:-->
+<!--    <div class="progress">-->
+<!--        <div class="progress-bar" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>-->
+<!--    </div>-->
+
+</div>

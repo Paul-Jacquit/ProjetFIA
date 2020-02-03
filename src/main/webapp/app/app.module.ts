@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 import './vendor';
 import { ProjetFiaSharedModule } from 'app/shared/shared.module';
@@ -15,6 +16,7 @@ import { PageRibbonComponent } from './layouts/profiles/page-ribbon.component';
 import { ErrorComponent } from './layouts/error/error.component';
 import { NbThemeModule } from '@nebular/theme';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { SafeUrlPipe } from './shared/safe-url.pipe';
 
 @NgModule({
   imports: [
@@ -26,9 +28,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     ProjetFiaEntityModule,
     ProjetFiaAppRoutingModule,
     BrowserAnimationsModule,
-    NbThemeModule.forRoot()
+    NbThemeModule.forRoot(),
+    MatProgressBarModule
   ],
-  declarations: [MainComponent, NavbarComponent, ErrorComponent, PageRibbonComponent, FooterComponent],
+  declarations: [MainComponent, NavbarComponent, ErrorComponent, PageRibbonComponent, FooterComponent, SafeUrlPipe],
   bootstrap: [MainComponent]
 })
 export class ProjetFiaAppModule {}

@@ -1,12 +1,13 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
-import { Subscription } from 'rxjs';
+import { Subscription, timer } from 'rxjs';
 import { JhiEventManager } from 'ng-jhipster';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { IMessage, Message } from 'app/shared/model/message.model';
 import { MessageService } from './message.service';
 import { AccountService } from 'app/core/auth/account.service';
+import { mergeMap } from 'rxjs/operators';
 
 @Component({
   selector: 'jhi-message',
@@ -16,6 +17,8 @@ export class MessageComponent implements OnInit, OnDestroy {
   messages: IMessage[];
   eventSubscriber?: Subscription;
   userLogin?: string;
+  messageReceivedFlag?: boolean;
+  flag = false;
 
   constructor(
     protected messageService: MessageService,
@@ -30,6 +33,42 @@ export class MessageComponent implements OnInit, OnDestroy {
         this.userLogin = account.login;
       }
     });
+  }
+
+  updateInside(): void {
+    this.getFlag();
+  }
+  /*
+  donneLeMenu(): string {
+    //this.getMenu();
+    return this.flag;
+  }
+   */
+
+  updateDiv(): void {
+    const reloadInterval = 5000;
+    setInterval(() => {
+      this.updateInside();
+    }, reloadInterval);
+  }
+
+  setFlag(data: string): boolean {
+    // eslint-disable-next-line no-console
+    console.log('data = ' + data);
+    const flagTest = data === 'true';
+    if (flagTest) {
+      document.getElementById('chat-view')!.innerHTML = document.getElementById('chat-view')!.innerHTML;
+      this.loadAll();
+      this.registerChangeInMessages();
+    }
+    return flagTest;
+  }
+
+  getFlag(): void {
+    this.flag = false;
+    this.messageService.getMessageFlag().subscribe(data => (this.flag = this.setFlag(data)));
+    // eslint-disable-next-line no-console
+    //console.log("flagTest = "+ flagTest);
   }
 
   loadAll(): void {
@@ -49,6 +88,7 @@ export class MessageComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.loadAll();
     this.registerChangeInMessages();
+    this.updateDiv();
   }
 
   ngOnDestroy(): void {

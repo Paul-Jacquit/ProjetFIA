@@ -12,8 +12,13 @@ type EntityArrayResponseType = HttpResponse<IMessage[]>;
 @Injectable({ providedIn: 'root' })
 export class MessageService {
   public resourceUrl = SERVER_API_URL + 'api/messages';
+  public resourceUrlFlag = this.resourceUrl + '/flag';
 
   constructor(protected http: HttpClient) {}
+
+  public getMessageFlag(): Observable<any> {
+    return this.http.get(this.resourceUrlFlag, { responseType: 'text' });
+  }
 
   create(message: IMessage): Observable<EntityResponseType> {
     return this.http.post<IMessage>(this.resourceUrl, message, { observe: 'response' });

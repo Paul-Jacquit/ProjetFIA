@@ -6,13 +6,17 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import projetfia.domain.Message;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.Date;
+import java.util.List;
 
 /**
  * ChatResource controller
@@ -25,9 +29,19 @@ public class ChatResource {
      * GET chat flag
      */
     @GetMapping("/messages/flag")
-    public ResponseEntity<String> getMessageFlag() {
-        String toreturn = "false";
+    public List<Message> getMessageFlag() {
+        Boolean newMessage;
 
+//        if(lastDateTime == MessageResource.lastDateTime)
+//        {
+//            newMessage=false;
+//        }
+//        else
+//        {
+//            newMessage=true;
+//        }
+
+        newMessage=true;
         /*
         String toreturn = "heyo je communique avec le serveur java spring";
         try {
@@ -57,6 +71,7 @@ public class ChatResource {
         }
         log.debug("to return test= "+toreturn);
         */
-        return new ResponseEntity<String>(toreturn, HttpStatus.OK);
+       // return new ResponseEntity<List<Message>>(newMessage, HttpStatus.OK);
+        return null;
     }
 }

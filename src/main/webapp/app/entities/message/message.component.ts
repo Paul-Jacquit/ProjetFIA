@@ -1,13 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
-import { Subscription, timer } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { JhiEventManager } from 'ng-jhipster';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { IMessage, Message } from 'app/shared/model/message.model';
 import { MessageService } from './message.service';
 import { AccountService } from 'app/core/auth/account.service';
-import { mergeMap } from 'rxjs/operators';
 
 @Component({
   selector: 'jhi-message',
@@ -17,15 +15,8 @@ export class MessageComponent implements OnInit, OnDestroy {
   messages: IMessage[];
   eventSubscriber?: Subscription;
   userLogin?: string;
-  messageReceivedFlag?: boolean;
-  flag = false;
 
-  constructor(
-    protected messageService: MessageService,
-    protected eventManager: JhiEventManager,
-    protected modalService: NgbModal,
-    protected accountService: AccountService
-  ) {
+  constructor(protected messageService: MessageService, protected eventManager: JhiEventManager, protected accountService: AccountService) {
     this.messages = [];
 
     this.accountService.identity().subscribe(account => {
@@ -35,40 +26,31 @@ export class MessageComponent implements OnInit, OnDestroy {
     });
   }
 
-  updateInside(): void {
-    this.getFlag();
-  }
-  /*
-  donneLeMenu(): string {
-    //this.getMenu();
-    return this.flag;
-  }
-   */
-
   updateDiv(): void {
     const reloadInterval = 5000;
     setInterval(() => {
-      this.updateInside();
+      this.getFlag();
     }, reloadInterval);
   }
 
-  setFlag(data: string): boolean {
-    // eslint-disable-next-line no-console
-    console.log('data = ' + data);
-    const flagTest = data === 'true';
-    if (flagTest) {
-      document.getElementById('chat-view')!.innerHTML = document.getElementById('chat-view')!.innerHTML;
-      this.loadAll();
-      this.registerChangeInMessages();
-    }
-    return flagTest;
+  reloadMessage(data: IMessage[]): void {
+    this.messages.push(...data);
   }
 
   getFlag(): void {
-    this.flag = false;
-    this.messageService.getMessageFlag().subscribe(data => (this.flag = this.setFlag(data)));
-    // eslint-disable-next-line no-console
-    //console.log("flagTest = "+ flagTest);
+    const datetime = this.messages[this.messages.length - 1].date!;
+    this.messageService.query({ 'date.greaterThan': datetime.toString() }).subscribe((res: HttpResponse<IMessage[]>) => {
+      const newMessage = res.body ? res.body : [];
+      newMessage;
+      for (const m of newMessage) {
+        if (m.user === this.userLogin) {
+          m.reply = true;
+        } else {
+          m.reply = false;
+        }
+      }
+      this.messages.push(...newMessage);
+    });
   }
 
   loadAll(): void {
@@ -102,7 +84,8 @@ export class MessageComponent implements OnInit, OnDestroy {
   }
 
   sendMessage($event: { message: string; files: File[] }): void {
-    this.messageService.create(new Message($event.message, this.userLogin, true, new Date())).subscribe((res: HttpResponse<IMessage>) => {
+    const date = new Date();
+    this.messageService.create(new Message($event.message, this.userLogin, true, date)).subscribe((res: HttpResponse<IMessage>) => {
       if (res.body) {
         this.messages.push(res.body);
       }

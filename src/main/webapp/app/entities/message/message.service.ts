@@ -16,8 +16,9 @@ export class MessageService {
 
   constructor(protected http: HttpClient) {}
 
-  public getMessageFlag(): Observable<any> {
-    return this.http.get(this.resourceUrlFlag, { responseType: 'text' });
+  public getMessageFlag(req?: any): Observable<any> {
+    const options = createRequestOption(req);
+    return this.http.get<IMessage[]>(this.resourceUrlFlag, { params: options });
   }
 
   create(message: IMessage): Observable<EntityResponseType> {

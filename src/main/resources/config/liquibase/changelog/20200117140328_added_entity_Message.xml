@@ -22,7 +22,7 @@
             <column name="user" type="varchar(255)">
                 <constraints nullable="false" />
             </column>
-            <column name="date" type="date">
+            <column name="date" type="datetime">
                 <constraints nullable="false" />
             </column>
             <column name="reply" type="boolean">

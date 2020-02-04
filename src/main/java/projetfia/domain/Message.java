@@ -6,6 +6,7 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.Date;
 
 /**
@@ -32,7 +33,7 @@ public class Message implements Serializable {
 
     @NotNull
     @Column(name = "date", nullable = false)
-    private Date date;
+    private Instant date;
 
     @NotNull
     @Column(name = "reply", nullable = false)
@@ -75,16 +76,16 @@ public class Message implements Serializable {
         this.user = user;
     }
 
-    public Date getDate() {
+    public Instant getDate() {
         return date;
     }
 
-    public Message date(Date date) {
+    public Message date(Instant date) {
         this.date = date;
         return this;
     }
 
-    public void setDate(Date date) {
+    public void setDate(Instant date) {
         this.date = date;
     }
 

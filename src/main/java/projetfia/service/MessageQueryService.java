@@ -1,5 +1,6 @@
 package projetfia.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.criteria.JoinType;
@@ -46,7 +47,21 @@ public class MessageQueryService extends QueryService<Message> {
     public List<Message> findByCriteria(MessageCriteria criteria) {
         log.debug("find by criteria : {}", criteria);
         final Specification<Message> specification = createSpecification(criteria);
-        return messageRepository.findAll(specification);
+
+        if(criteria.getDate()!= null){
+            if(criteria.getDate().getGreaterThan().isBefore( MessageService.lastMessageDate)){
+                return messageRepository.findAll(specification);
+            }
+            else {
+                return new ArrayList<>();
+            }
+        }
+        else
+        {
+            return messageRepository.findAll(specification);
+        }
+
+
     }
 
     /**

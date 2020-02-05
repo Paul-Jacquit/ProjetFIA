@@ -35,9 +35,9 @@ public class Message implements Serializable {
     @Column(name = "date", nullable = false)
     private Instant date;
 
-    @NotNull
-    @Column(name = "reply", nullable = false)
-    private Boolean reply;
+//    @NotNull
+//    @Column(name = "reply", nullable = false)
+//    private Boolean reply;
 
 
 
@@ -89,18 +89,18 @@ public class Message implements Serializable {
         this.date = date;
     }
 
-    public Boolean getReply() {
-        return reply;
-    }
-
-    public void setReply(Boolean reply) {
-        this.reply = reply;
-    }
-
-    public Message reply(Boolean reply) {
-        this.reply = reply;
-        return this;
-    }
+//    public Boolean getReply() {
+//        return reply;
+//    }
+//
+//    public void setReply(Boolean reply) {
+//        this.reply = reply;
+//    }
+//
+//    public Message reply(Boolean reply) {
+//        this.reply = reply;
+//        return this;
+//    }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 

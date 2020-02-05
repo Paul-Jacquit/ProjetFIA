@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,6 +23,8 @@ public class MessageService {
 
     private final MessageRepository messageRepository;
 
+    public static Instant lastMessageDate =  Instant.now();
+
     public MessageService(MessageRepository messageRepository) {
         this.messageRepository = messageRepository;
     }
@@ -33,6 +36,7 @@ public class MessageService {
      * @return the persisted entity.
      */
     public Message save(Message message) {
+        MessageService.lastMessageDate=message.getDate();
         log.debug("Request to save Message : {}", message);
         return messageRepository.save(message);
     }

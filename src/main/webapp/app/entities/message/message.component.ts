@@ -27,30 +27,28 @@ export class MessageComponent implements OnInit, OnDestroy {
   }
 
   updateDiv(): void {
-    const reloadInterval = 5000;
+    const reloadInterval = 1000;
     setInterval(() => {
       this.getFlag();
     }, reloadInterval);
   }
 
-  reloadMessage(data: IMessage[]): void {
-    this.messages.push(...data);
-  }
-
   getFlag(): void {
-    const datetime = this.messages[this.messages.length - 1].date!;
-    this.messageService.query({ 'date.greaterThan': datetime.toString() }).subscribe((res: HttpResponse<IMessage[]>) => {
-      const newMessage = res.body ? res.body : [];
-      newMessage;
-      for (const m of newMessage) {
-        if (m.user === this.userLogin) {
-          m.reply = true;
-        } else {
-          m.reply = false;
+    if (this.messages.length > 0) {
+      const datetime = this.messages[this.messages.length - 1].date!;
+      this.messageService.query({ 'date.greaterThan': datetime.toString() }).subscribe((res: HttpResponse<IMessage[]>) => {
+        const newMessage = res.body ? res.body : [];
+        newMessage;
+        for (const m of newMessage) {
+          if (m.user === this.userLogin) {
+            m.reply = true;
+          } else {
+            m.reply = false;
+          }
         }
-      }
-      this.messages.push(...newMessage);
-    });
+        this.messages.push(...newMessage);
+      });
+    }
   }
 
   loadAll(): void {
@@ -85,8 +83,9 @@ export class MessageComponent implements OnInit, OnDestroy {
 
   sendMessage($event: { message: string; files: File[] }): void {
     const date = new Date();
-    this.messageService.create(new Message($event.message, this.userLogin, true, date)).subscribe((res: HttpResponse<IMessage>) => {
+    this.messageService.create(new Message($event.message, this.userLogin, date)).subscribe((res: HttpResponse<IMessage>) => {
       if (res.body) {
+        res.body.reply = true;
         this.messages.push(res.body);
       }
     });

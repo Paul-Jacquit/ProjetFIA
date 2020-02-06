@@ -15,6 +15,10 @@ import { RouterModule } from '@angular/router';
       {
         path: 'drive',
         loadChildren: () => import('./drive/drive.module').then(m => m.ProjetFiaDriveModule)
+      },
+      {
+        path: 'menu-ru',
+        loadChildren: () => import('./menu-ru/menu-ru.module').then(m => m.ProjetFiaMenu_RuModule)
       }
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ])

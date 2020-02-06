@@ -17,6 +17,7 @@ import { ErrorComponent } from './layouts/error/error.component';
 import { NbThemeModule } from '@nebular/theme';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SafeUrlPipe } from './shared/safe-url.pipe';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   imports: [
@@ -27,6 +28,7 @@ import { SafeUrlPipe } from './shared/safe-url.pipe';
     // jhipster-needle-angular-add-module JHipster will add new module here
     ProjetFiaEntityModule,
     ProjetFiaAppRoutingModule,
+    HttpClientModule,
     BrowserAnimationsModule,
     NbThemeModule.forRoot(),
     MatProgressBarModule

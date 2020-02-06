@@ -54,7 +54,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     document.getElementById("menuTouriste").innerHTML = "<h4>Midi - " + laDateFormat + " " + menuArray[4];
     document.getElementById("menuAdministratif").innerHTML = "<h4>Midi - " + laDateFormat + " " + menuArray[5];
     document.getElementById("menuSoir").innerHTML = "<h4>Soir - " + laDateFormat + " " + menuArray[6];
-    return "ok menu";
+    return "";
   }
 
   login(): void {

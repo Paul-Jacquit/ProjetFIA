@@ -32,11 +32,14 @@ export class HomeComponent implements OnInit, OnDestroy {
     let parseString = require('xml2js').parseString;
     let menuVarGlobale = this.leMenu;
     parseString(menuVarGlobale, function (err, result) {
-      if (typeof(result) !== undefined) {
-         menuVarGlobale = Object.values(result.root.resto.16.menu);
-      }
+      menuVarGlobale = result;
     });
-    this.leMenu = menuVarGlobale;
+    if (menuVarGlobale != undefined) {
+      console.log("Le menu en Object javascript :");
+      console.dir(menuVarGlobale);
+      this.leMenu = Object.values(menuVarGlobale.root.resto.16.menu);
+      console.dir(this.leMenu[16]);
+    }
     const cleanDate = decodeURIComponent(escape(this.leMenu[16].menu[0].$["date"];
     const dateArray = cleanDate.split("-");
     const laDateFormat = dateArray[2] + "/" + dateArray[1] + "/" + dateArray[0]

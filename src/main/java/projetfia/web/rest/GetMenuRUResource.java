@@ -19,13 +19,13 @@ import java.net.URLConnection;
  * GetMenuRUResource controller
  */
 @RestController
-@RequestMapping("/api/get-menu-ru")
+@RequestMapping("/api")
 public class GetMenuRUResource {
     private final Logger log = LoggerFactory.getLogger(GetMenuRUResource.class);
     /**
     * GET getMenuGouvURL
     */
-    @GetMapping("/get-menu-gouv-url")
+    @GetMapping("/menu-ru")
     public ResponseEntity<String> getMenuGouvURL() {
             String toreturn = "heyo je communique avec le serveur java spring";
             try {

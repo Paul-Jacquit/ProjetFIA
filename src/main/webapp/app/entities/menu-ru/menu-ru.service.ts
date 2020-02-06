@@ -1,17 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
 import { SERVER_API_URL } from 'app/app.constants';
 
 @Injectable({ providedIn: 'root' })
-export class MenuruService {
-  constructor(private http: HttpClient) {}
+export class Menu_RuService {
+  public resourceUrl = SERVER_API_URL + 'api/menu-ru';
 
-  public resourceUrl = SERVER_API_URL + 'api/get-menu-ru/get-menu-gouv-url';
+  constructor(protected http: HttpClient) {}
 
   public getXMLMenuFile(): Observable<any> {
     return this.http.get(this.resourceUrl, { responseType: 'text' });
-    //{ params: options, observe: 'response' });
   }
 }

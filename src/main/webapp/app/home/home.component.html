@@ -6,50 +6,9 @@
                     <h1 class="display-4">Bienvenue sur le Projet FIA, {{account.login}}!</h1>
                 </div>
             </div>
-
-            <div class="row">
-                {{ donneLeMenuDuJour() }}
-                <div class="col-lg-2 col-md-4 col-sm-6">
-                    <div id="titreTradi" class=""></div>
-                </div>
-                <div class="col-lg-2 col-md-4 col-sm-6">
-                    <div id="titreFrite" class=""></div>
-                </div>
-                <div class="col-lg-2 col-md-4 col-sm-6">
-                    <div id="titrePoisson" class=""></div>
-                </div>
-                <div class="col-lg-2 col-md-4 col-sm-6">
-                    <div id="titreTouriste" class=""></div>
-                </div>
-                <div class="col-lg-2 col-md-4 col-sm-6">
-                    <div id="titreAdministratif" class=""></div>
-                </div>
-                <div class="col-lg-2 col-md-4 col-sm-6">
-                    <div id="titreSoir" class=""></div>
-                </div>
-            </div>
-            <div class="row">
-                {{ donneLeMenuDuJour() }}
-                <div class="col-lg-2 col-md-4 col-sm-6">
-                    <div id="menuTradi" class=""></div>
-                </div>
-                <div class="col-lg-2 col-md-4 col-sm-6">
-                    <div id="menuFrite" class=""></div>
-                </div>
-                <div class="col-lg-2 col-md-4 col-sm-6">
-                    <div id="menuPoisson" class=""></div>
-                </div>
-                <div class="col-lg-2 col-md-4 col-sm-6">
-                    <div id="menuTouriste" class=""></div>
-                </div>
-                <div class="col-lg-2 col-md-4 col-sm-6">
-                    <div id="menuAdministratif" class=""></div>
-                </div>
-                <div class="col-lg-2 col-md-4 col-sm-6">
-                    <div id="menuSoir" class=""></div>
-                </div>
-            </div>
         </div>
+
+
     </div>
     <div [ngSwitch]="isAuthenticated()">
         <div *ngSwitchCase="false">

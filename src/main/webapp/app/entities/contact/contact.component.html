@@ -1,0 +1,60 @@
+<div>
+    <h2 id="page-heading">
+        <span>Contacts</span>
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-contact" [routerLink]="['/contact/new']">
+            <fa-icon [icon]="'plus'"></fa-icon>
+            <span >
+            Create a new Contact
+            </span>
+        </button>
+    </h2>
+    <jhi-alert-error></jhi-alert-error>
+    <jhi-alert></jhi-alert>
+    <br/>
+    <div class="alert alert-warning" *ngIf="contacts?.length === 0">
+        <span>No contacts found</span>
+    </div>
+    <div class="table-responsive" *ngIf="contacts?.length > 0">
+        <table class="table table-striped" aria-describedby="page-heading">
+            <thead>
+            <tr>
+            <th scope="col" ><span>Nom</span></th>
+            <th scope="col" ><span>Mail</span></th>
+            <th scope="col" ><span>Telephone</span></th>
+            <th scope="col" ><span>Bureau</span></th>
+            <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let contact of contacts ;trackBy: trackId">
+                <td>{{contact.nom}}</td>
+                <td>{{contact.mail}}</td>
+                <td>{{contact.telephone}}</td>
+                <td>{{contact.bureau}}</td>
+                <td class="text-right">
+                    <div class="btn-group">
+                        <button type="submit"
+                                [routerLink]="['/contact', contact.id, 'view' ]"
+                                class="btn btn-info btn-sm">
+                            <fa-icon [icon]="'eye'"></fa-icon>
+                            <span class="d-none d-md-inline">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/contact', contact.id, 'edit']"
+                                class="btn btn-primary btn-sm">
+                            <fa-icon [icon]="'pencil-alt'"></fa-icon>
+                            <span class="d-none d-md-inline">Edit</span>
+                        </button>
+                        <button type="submit" (click)="delete(contact)"
+                                class="btn btn-danger btn-sm">
+                            <fa-icon [icon]="'times'"></fa-icon>
+                            <span class="d-none d-md-inline">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+

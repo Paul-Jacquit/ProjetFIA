@@ -1,32 +1,36 @@
 <div class="row">
-    <div class="col-md-3">
-        <div class="row-md-4">
-            <div class="col-md-12">EDT</div>
-        </div>
-        <div class="row-md-4">
-            <div class="col-md-12">DRIVE</div>
-        </div>
-        <div class="row-md-4">
-            <div class="col-md-12">MENU</div>
+    <div [ngSwitch]="isAuthenticated()">
+        <div *ngSwitchCase="true">
+            <h1 class="display-4">Bienvenue sur le Projet FIA, {{account.login}}!</h1>
         </div>
     </div>
-    <div class="col-md-9">
-        <div [ngSwitch]="isAuthenticated()">
-            <div *ngSwitchCase="true">
-                <h1 class="display-4">Bienvenue sur le Projet FIA, {{account.login}}!</h1>
-            </div>
-        </div>
-        <div [ngSwitch]="isAuthenticated()">
-            <div *ngSwitchCase="true">
-                <h1 class="display-4">Bienvenue sur le Projet FIA !</h1>
-                <p class="lead">Vous pouvez vous <a class="alert-link" (click)="login()">connecter ici</a>.</p>
-                <div>
-                    <button (click)="getMenu()"></button>
-                </div>
-                <div [ngSwitch]="testBool===true">
-                    le menu : {{ donneLeMenu() }}
-                </div>
-            </div>
+    <div [ngSwitch]="isAuthenticated()">
+        <div *ngSwitchCase="false">
+            <p class="lead">Vous pouvez vous <a class="alert-link" (click)="login()">connecter ici</a>.</p>
         </div>
     </div>
 </div>
+<div class="row">
+    {{ donneLeMenuDuJour() }}
+    <div class="col-md-2">
+        <div id="menuTradi"></div>
+    </div>
+    <div class="col-md-2">
+        <div id="menuFrite"></div>
+    </div>
+    <div class="col-md-2">
+        <div id="menuPoisson"></div>
+    </div>
+    <div class="col-md-2">
+        <div id="menuTouriste"></div>
+    </div>
+    <div class="col-md-2">
+        <div id="menuAdministratif"></div>
+    </div>
+    <div class="col-md-2">
+        <div id="menuSoir"></div>
+    </div>
+</div>
+
+
+

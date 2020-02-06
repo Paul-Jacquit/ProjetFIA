@@ -30,7 +30,7 @@ public class GetMenuRUResource {
             String toreturn = "heyo je communique avec le serveur java spring";
             try {
                 // creation d'un objet URL
-                URL url = new URL("http://webservices-v2.crous-mobile.fr:8080/feed/bordeaux/externe/resto.xml");
+                URL url = new URL("http://webservices-v2.crous-mobile.fr:8080/feed/bordeaux/externe/menu.xml");
                 // on etablie une connection a cette url
                 URLConnection uc = url.openConnection();
                 // on y cree un flux de lecture

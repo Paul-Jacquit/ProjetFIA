@@ -16,62 +16,42 @@ export class HomeComponent implements OnInit, OnDestroy {
   account: Account | null = null;
   authSubscription?: Subscription;
   leMenu = 'test';
-  testBool = false;
 
   constructor(private accountService: AccountService, private loginModalService: LoginModalService, private menuruService: MenuruService) {}
 
   ngOnInit(): void {
-    //this.leMenu = this.leMenuRU.get().toString();
-    //console.log(this.leMenu.toString);
     this.authSubscription = this.accountService.getAuthenticationState().subscribe(account => (this.account = account));
-    //this.getMenu();
-  }
-
-  getMenu(): void {
     this.menuruService.getXMLMenuFile().subscribe(data => (this.leMenu = data));
   }
-  /*
-  importMenuRestoU(): void {
-    //this.leMenuRU.get();
-
-    //getMenuGouvURL();
-    let url =
-      "http://query.yahooapis.com/v1/public/yql?q=select * from xml where url='http://dailyjs.com/atom.xml' and itemPath='feed.entry'&format=json&diagnostics=true&callback=JSON_CALLBACK";
-    url = 'https://www.data.gouv.fr/fr/datasets/r/0e08266e-0c9a-4b27-a4d6-235de261c5d3';
-    url = 'http://webservices-v2.crous-mobile.fr:8080/feed/bordeaux/externe/resto.xml';
-    url = '/api/get-menu-ru/get-menu-gouv-url';
-    this.leMenu = '';
-    let localLeMenu = JSON.stringify({
-      Menu: 'Erreur',
-      Resto: 'Erreur'
-    });
-    const xhr = new XMLHttpRequest();
-    xhr.open('GET', url, true);
-    xhr.setRequestHeader('Content-type', 'application/json');
-    xhr.onload = function(): string {
-      if (xhr.status === 200) {
-        localLeMenu = xhr.response;
-        return 'ok';
-      } else {
-        //  console.log('Request failed.  Returned status of ' + xhr.status);
-        return 'error';
-      }
-    };
-    this.leMenu = localLeMenu;
-    xhr.send(localLeMenu);
-  }*/
 
   isAuthenticated(): boolean {
     return this.accountService.isAuthenticated();
   }
 
-  test(): void {
-    this.testBool = true;
-  }
-
-  donneLeMenu(): string {
-    //this.getMenu();
-    return this.leMenu;
+  donneLeMenuDuJour(): string {
+    let parseString = require('xml2js').parseString;
+    let menuVarGlobale = this.leMenu;
+    parseString(menuVarGlobale, function (err, result) {
+      if (typeof(result) !== undefined) {
+         menuVarGlobale = Object.values(result.root.resto.16.menu);
+      }
+    });
+    this.leMenu = menuVarGlobale;
+    const cleanDate = decodeURIComponent(escape(this.leMenu[16].menu[0].$["date"];
+    const dateArray = cleanDate.split("-");
+    const laDateFormat = dateArray[2] + "/" + dateArray[1] + "/" + dateArray[0]
+    let cleanMenu = decodeURIComponent(escape(this.leMenu[16].menu[0]._.replace(/liste-plats/gi, "list-group")));
+    cleanMenu = cleanMenu.replace(/<li>/gi, "<li class=\"list-group-item\">");
+    cleanMenu = cleanMenu.replace(/midi/gi, "");
+    cleanMenu = cleanMenu.replace(/soir/gi, "");
+    const menuArray = cleanMenu.split("<h4>");
+    document.getElementById("menuTradi").innerHTML = "<h4>Midi - " + laDateFormat + " " + menuArray[1];
+    document.getElementById("menuFrite").innerHTML = "<h4>Midi - " + laDateFormat + " " + menuArray[2];
+    document.getElementById("menuPoisson").innerHTML = "<h4>Midi - " + laDateFormat + " " + menuArray[3];
+    document.getElementById("menuTouriste").innerHTML = "<h4>Midi - " + laDateFormat + " " + menuArray[4];
+    document.getElementById("menuAdministratif").innerHTML = "<h4>Midi - " + laDateFormat + " " + menuArray[5];
+    document.getElementById("menuSoir").innerHTML = "<h4>Soir - " + laDateFormat + " " + menuArray[6];
+    return "Menu du " +  decodeURIComponent(escape(cleanDate)) +  decodeURIComponent(escape(cleanMenu));
   }
 
   login(): void {

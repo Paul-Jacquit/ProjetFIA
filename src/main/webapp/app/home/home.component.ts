@@ -48,12 +48,31 @@ export class HomeComponent implements OnInit, OnDestroy {
     cleanMenu = cleanMenu.replace(/midi/gi, "");
     cleanMenu = cleanMenu.replace(/soir/gi, "");
     const menuArray = cleanMenu.split("<h4>");
-    document.getElementById("menuTradi").innerHTML = "<h4>Midi - " + laDateFormat + " " + menuArray[1];
-    document.getElementById("menuFrite").innerHTML = "<h4>Midi - " + laDateFormat + " " + menuArray[2];
-    document.getElementById("menuPoisson").innerHTML = "<h4>Midi - " + laDateFormat + " " + menuArray[3];
-    document.getElementById("menuTouriste").innerHTML = "<h4>Midi - " + laDateFormat + " " + menuArray[4];
-    document.getElementById("menuAdministratif").innerHTML = "<h4>Midi - " + laDateFormat + " " + menuArray[5];
-    document.getElementById("menuSoir").innerHTML = "<h4>Soir - " + laDateFormat + " " + menuArray[6];
+
+    let tradiArray = menuArray[1].split("<ul");
+    tradiArray[1] = "<ul" + tradiArray[1];
+    document.getElementById("titreTradi").innerHTML = "<h4>Midi - " + laDateFormat + " " + tradiArray[0];
+    document.getElementById("menuTradi").innerHTML = tradiArray[1];
+    let friteArray = menuArray[2].split("<ul");
+    friteArray[1] = "<ul" + friteArray[1];
+    document.getElementById("titreFrite").innerHTML = "<h4>Midi - " + laDateFormat + " " + friteArray[0];
+    document.getElementById("menuFrite").innerHTML = friteArray[1];
+    let poissonArray = menuArray[3].split("<ul");
+    poissonArray[1] = "<ul" + poissonArray[1];
+    document.getElementById("titrePoisson").innerHTML = "<h4>Midi - " + laDateFormat + " " + poissonArray[0];
+    document.getElementById("menuPoisson").innerHTML = poissonArray[1];
+    let touristeArray = menuArray[4].split("<ul");
+    touristeArray[1] = "<ul" + touristeArray[1];
+    document.getElementById("titreTouriste").innerHTML = "<h4>Midi - " + laDateFormat + " " + touristeArray[0];
+    document.getElementById("menuTouriste").innerHTML = touristeArray[1];
+    let administratifArray = menuArray[5].split("<ul");
+    administratifArray[1] = "<ul" + administratifArray[1];
+    document.getElementById("titreAdministratif").innerHTML = "<h4>Midi - " + laDateFormat + " " + administratifArray[0];
+    document.getElementById("menuAdministratif").innerHTML = administratifArray[1];
+    let soirArray = menuArray[6].split("<ul");
+    soirArray[1] = "<ul" + soirArray[1];
+    document.getElementById("titreSoir").innerHTML = "<h4>Midi - " + laDateFormat + " " + soirArray[0];
+    document.getElementById("menuSoir").innerHTML = soirArray[1];
     return "";
   }
 

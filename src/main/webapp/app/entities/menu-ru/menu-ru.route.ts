@@ -8,7 +8,7 @@ export const menu_RuRoute: Routes = [
     component: Menu_RuComponent,
     data: {
       authorities: ['ROLE_USER'],
-      pageTitle: 'Menu_Rus'
+      pageTitle: 'Menu RU'
     },
     canActivate: [UserRouteAccessService]
   }

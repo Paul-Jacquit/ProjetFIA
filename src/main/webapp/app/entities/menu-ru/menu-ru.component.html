@@ -1,6 +1,6 @@
 <div>
     <h2 id="page-heading">
-        <span>Menu Rus</span>
+        <span>Menu RU</span>
     </h2>
     <jhi-alert-error></jhi-alert-error>
     <jhi-alert></jhi-alert>
@@ -8,43 +8,36 @@
     <div class="row">
         {{ donneLeMenuDuJour() }}
         <div class="col-lg-2 col-md-4 col-sm-6">
-            <div id="titreTradi" class=""></div>
-        </div>
-        <div class="col-lg-2 col-md-4 col-sm-6">
-            <div id="titreFrite" class=""></div>
-        </div>
-        <div class="col-lg-2 col-md-4 col-sm-6">
-            <div id="titrePoisson" class=""></div>
-        </div>
-        <div class="col-lg-2 col-md-4 col-sm-6">
-            <div id="titreTouriste" class=""></div>
-        </div>
-        <div class="col-lg-2 col-md-4 col-sm-6">
-            <div id="titreAdministratif" class=""></div>
-        </div>
-        <div class="col-lg-2 col-md-4 col-sm-6">
-            <div id="titreSoir" class=""></div>
-        </div>
-    </div>
-    <div class="row">
-        {{ donneLeMenuDuJour() }}
-        <div class="col-lg-2 col-md-4 col-sm-6">
+            <div id="titreTradi" class="titreAlign"></div>
             <div id="menuTradi" class=""></div>
         </div>
         <div class="col-lg-2 col-md-4 col-sm-6">
+            <div id="titreFrite" class="titreAlign"></div>
             <div id="menuFrite" class=""></div>
         </div>
         <div class="col-lg-2 col-md-4 col-sm-6">
+            <div id="titrePoisson" class="titreAlign"></div>
             <div id="menuPoisson" class=""></div>
         </div>
         <div class="col-lg-2 col-md-4 col-sm-6">
+            <div id="titreTouriste" class="titreAlign"></div>
             <div id="menuTouriste" class=""></div>
         </div>
         <div class="col-lg-2 col-md-4 col-sm-6">
+            <div id="titreAdministratif" class="titreAlign"></div>
             <div id="menuAdministratif" class=""></div>
         </div>
         <div class="col-lg-2 col-md-4 col-sm-6">
+            <div id="titreSoir" class="titreAlign"></div>
             <div id="menuSoir" class=""></div>
         </div>
     </div>
 </div>
+<style>
+    .titreAlign {
+        text-align:center;
+        vertical-align:middle!important;
+        height: 120px;
+        display:inline-block;
+    }
+</style>

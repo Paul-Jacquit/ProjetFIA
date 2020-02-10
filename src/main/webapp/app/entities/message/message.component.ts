@@ -15,9 +15,11 @@ export class MessageComponent implements OnInit, OnDestroy {
   messages: IMessage[];
   eventSubscriber?: Subscription;
   userLogin?: string;
+  channel?: string;
 
   constructor(protected messageService: MessageService, protected eventManager: JhiEventManager, protected accountService: AccountService) {
     this.messages = [];
+    this.channel = 'G';
 
     this.accountService.identity().subscribe(account => {
       if (account) {
@@ -36,23 +38,24 @@ export class MessageComponent implements OnInit, OnDestroy {
   getFlag(): void {
     if (this.messages.length > 0) {
       const datetime = this.messages[this.messages.length - 1].date!;
-      this.messageService.query({ 'date.greaterThan': datetime.toString() }).subscribe((res: HttpResponse<IMessage[]>) => {
-        const newMessage = res.body ? res.body : [];
-        newMessage;
-        for (const m of newMessage) {
-          if (m.user === this.userLogin) {
-            m.reply = true;
-          } else {
-            m.reply = false;
+      this.messageService
+        .query({ 'date.greaterThan': datetime.toString(), 'channel.equals': this.channel })
+        .subscribe((res: HttpResponse<IMessage[]>) => {
+          const newMessage = res.body ? res.body : [];
+          for (const m of newMessage) {
+            if (m.user === this.userLogin) {
+              m.reply = true;
+            } else {
+              m.reply = false;
+            }
           }
-        }
-        this.messages.push(...newMessage);
-      });
+          this.messages.push(...newMessage);
+        });
     }
   }
 
   loadAll(): void {
-    this.messageService.query().subscribe((res: HttpResponse<IMessage[]>) => {
+    this.messageService.query({ 'channel.equals': this.channel }).subscribe((res: HttpResponse<IMessage[]>) => {
       this.messages = res.body ? res.body : [];
 
       for (const m of this.messages) {
@@ -83,11 +86,16 @@ export class MessageComponent implements OnInit, OnDestroy {
 
   sendMessage($event: { message: string; files: File[] }): void {
     const date = new Date();
-    this.messageService.create(new Message($event.message, this.userLogin, date)).subscribe((res: HttpResponse<IMessage>) => {
+    this.messageService.create(new Message($event.message, this.userLogin, date, this.channel)).subscribe((res: HttpResponse<IMessage>) => {
       if (res.body) {
         res.body.reply = true;
         this.messages.push(res.body);
       }
     });
+  }
+
+  setChannel($event: any): void {
+    this.channel = $event.target.value;
+    this.loadAll();
   }
 }

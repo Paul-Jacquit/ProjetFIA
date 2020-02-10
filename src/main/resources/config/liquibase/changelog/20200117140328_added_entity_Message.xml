@@ -25,6 +25,9 @@
             <column name="date" type="datetime">
                 <constraints nullable="false" />
             </column>
+            <column name="channel" type="varchar(255)">
+                <constraints nullable="false" />
+            </column>
 <!--            <column name="reply" type="boolean">-->
 <!--                <constraints nullable="false" />-->
 <!--            </column>-->
@@ -55,6 +58,7 @@
             <column name="text" type="string"/>
             <column name="user" type="string"/>
             <column name="date" type="date"/>
+            <column name="channel" type="string"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here, do not remove-->
         </loadData>
     </changeSet>

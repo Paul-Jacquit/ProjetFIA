@@ -109,6 +109,9 @@ public class MessageQueryService extends QueryService<Message> {
             if (criteria.getDate() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getDate(), Message_.date));
             }
+            if (criteria.getChannel() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getChannel(), Message_.channel));
+            }
         }
         return specification;
     }

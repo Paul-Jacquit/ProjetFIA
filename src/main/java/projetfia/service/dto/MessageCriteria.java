@@ -26,6 +26,8 @@ public class MessageCriteria implements Serializable, Criteria {
 
     private InstantFilter date;
 
+    private StringFilter channel;
+
     public MessageCriteria(){
     }
 
@@ -34,6 +36,7 @@ public class MessageCriteria implements Serializable, Criteria {
         this.text = other.text == null ? null : other.text.copy();
         this.user = other.user == null ? null : other.user.copy();
         this.date = other.date == null ? null : other.date.copy();
+        this.channel = other.channel == null ? null : other.channel.copy();
     }
 
     @Override
@@ -73,6 +76,13 @@ public class MessageCriteria implements Serializable, Criteria {
         this.date = date;
     }
 
+    public StringFilter getChannel() {
+        return channel;
+    }
+
+    public void setChannel(StringFilter channel) {
+        this.channel = channel;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -87,6 +97,7 @@ public class MessageCriteria implements Serializable, Criteria {
             Objects.equals(id, that.id) &&
             Objects.equals(text, that.text) &&
             Objects.equals(user, that.user) &&
+                Objects.equals(channel,that.channel) &&
             Objects.equals(date, that.date);
     }
 
@@ -96,7 +107,7 @@ public class MessageCriteria implements Serializable, Criteria {
         id,
         text,
         user,
-        date
+        date,channel
         );
     }
 

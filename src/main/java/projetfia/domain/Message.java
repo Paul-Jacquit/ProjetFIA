@@ -35,6 +35,10 @@ public class Message implements Serializable {
     @Column(name = "date", nullable = false)
     private Instant date;
 
+    @NotNull
+    @Column(name = "channel", nullable = false)
+    private String channel;
+
 //    @NotNull
 //    @Column(name = "reply", nullable = false)
 //    private Boolean reply;
@@ -89,6 +93,18 @@ public class Message implements Serializable {
         this.date = date;
     }
 
+    public String getChannel() {
+        return channel;
+    }
+
+    public Message channel(String channel) {
+        this.channel = channel;
+        return this;
+    }
+
+    public void setChannel(String channel) {
+        this.channel = channel;
+    }
 //    public Boolean getReply() {
 //        return reply;
 //    }
@@ -127,6 +143,7 @@ public class Message implements Serializable {
             ", text='" + getText() + "'" +
             ", user='" + getUser() + "'" +
             ", date='" + getDate() + "'" +
+            ", channel='" + getChannel() + "'" +
             "}";
     }
 }

@@ -1,8 +1,10 @@
 package projetfia.web.rest;
 
 import projetfia.domain.Message;
-import projetfia.repository.MessageRepository;
+import projetfia.service.MessageService;
 import projetfia.web.rest.errors.BadRequestAlertException;
+import projetfia.service.dto.MessageCriteria;
+import projetfia.service.MessageQueryService;
 
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -10,7 +12,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -25,7 +26,6 @@ import java.util.Optional;
  */
 @RestController
 @RequestMapping("/api")
-@Transactional
 public class MessageResource {
 
     private final Logger log = LoggerFactory.getLogger(MessageResource.class);
@@ -35,10 +35,13 @@ public class MessageResource {
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
 
-    private final MessageRepository messageRepository;
+    private final MessageService messageService;
 
-    public MessageResource(MessageRepository messageRepository) {
-        this.messageRepository = messageRepository;
+    private final MessageQueryService messageQueryService;
+
+    public MessageResource(MessageService messageService, MessageQueryService messageQueryService) {
+        this.messageService = messageService;
+        this.messageQueryService = messageQueryService;
     }
 
     /**
@@ -53,14 +56,14 @@ public class MessageResource {
         log.debug("REST request to save Message : {}", message);
         if (message.getId() != null) {
             throw new BadRequestAlertException("A new message cannot already have an ID", ENTITY_NAME, "idexists");
-}
-    Message result = messageRepository.save(message);
+        }
+        Message result = messageService.save(message);
         return ResponseEntity.created(new URI("/api/messages/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
             .body(result);
-            }
+    }
 
-    /**O
+    /**
      * {@code PUT  /messages} : Updates an existing message.
      *
      * @param message the message to update.
@@ -75,7 +78,7 @@ public class MessageResource {
         if (message.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        Message result = messageRepository.save(message);
+        Message result = messageService.save(message);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, message.getId().toString()))
             .body(result);
@@ -85,12 +88,26 @@ public class MessageResource {
      * {@code GET  /messages} : get all the messages.
      *
 
+     * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of messages in body.
      */
     @GetMapping("/messages")
-    public List<Message> getAllMessages() {
-        log.debug("REST request to get all Messages");
-        return messageRepository.findAll();
+    public ResponseEntity<List<Message>> getAllMessages(MessageCriteria criteria) {
+        log.debug("REST request to get Messages by criteria: {}", criteria);
+        List<Message> entityList = messageQueryService.findByCriteria(criteria);
+        return ResponseEntity.ok().body(entityList);
+    }
+
+    /**
+    * {@code GET  /messages/count} : count all the messages.
+    *
+    * @param criteria the criteria which the requested entities should match.
+    * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
+    */
+    @GetMapping("/messages/count")
+    public ResponseEntity<Long> countMessages(MessageCriteria criteria) {
+        log.debug("REST request to count Messages by criteria: {}", criteria);
+        return ResponseEntity.ok().body(messageQueryService.countByCriteria(criteria));
     }
 
     /**
@@ -102,7 +119,7 @@ public class MessageResource {
     @GetMapping("/messages/{id}")
     public ResponseEntity<Message> getMessage(@PathVariable Long id) {
         log.debug("REST request to get Message : {}", id);
-        Optional<Message> message = messageRepository.findById(id);
+        Optional<Message> message = messageService.findOne(id);
         return ResponseUtil.wrapOrNotFound(message);
     }
 
@@ -115,7 +132,7 @@ public class MessageResource {
     @DeleteMapping("/messages/{id}")
     public ResponseEntity<Void> deleteMessage(@PathVariable Long id) {
         log.debug("REST request to delete Message : {}", id);
-        messageRepository.deleteById(id);
+        messageService.delete(id);
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString())).build();
     }
 }

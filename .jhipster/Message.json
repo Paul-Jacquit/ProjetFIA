@@ -28,10 +28,10 @@
     "changelogDate": "20200117140328",
     "dto": "no",
     "searchEngine": false,
-    "service": "no",
+    "service": "serviceClass",
     "entityTableName": "message",
     "databaseType": "sql",
     "readOnly": false,
-    "jpaMetamodelFiltering": false,
+    "jpaMetamodelFiltering": true,
     "pagination": "no"
 }

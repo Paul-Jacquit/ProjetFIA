@@ -6,6 +6,7 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 
 import java.io.Serializable;
+import java.time.Instant;
 import java.util.Date;
 
 /**
@@ -32,11 +33,15 @@ public class Message implements Serializable {
 
     @NotNull
     @Column(name = "date", nullable = false)
-    private Date date;
+    private Instant date;
 
     @NotNull
-    @Column(name = "reply", nullable = false)
-    private Boolean reply;
+    @Column(name = "channel", nullable = false)
+    private String channel;
+
+//    @NotNull
+//    @Column(name = "reply", nullable = false)
+//    private Boolean reply;
 
 
 
@@ -75,31 +80,43 @@ public class Message implements Serializable {
         this.user = user;
     }
 
-    public Date getDate() {
+    public Instant getDate() {
         return date;
     }
 
-    public Message date(Date date) {
+    public Message date(Instant date) {
         this.date = date;
         return this;
     }
 
-    public void setDate(Date date) {
+    public void setDate(Instant date) {
         this.date = date;
     }
 
-    public Boolean getReply() {
-        return reply;
+    public String getChannel() {
+        return channel;
     }
 
-    public void setReply(Boolean reply) {
-        this.reply = reply;
-    }
-
-    public Message reply(Boolean reply) {
-        this.reply = reply;
+    public Message channel(String channel) {
+        this.channel = channel;
         return this;
     }
+
+    public void setChannel(String channel) {
+        this.channel = channel;
+    }
+//    public Boolean getReply() {
+//        return reply;
+//    }
+//
+//    public void setReply(Boolean reply) {
+//        this.reply = reply;
+//    }
+//
+//    public Message reply(Boolean reply) {
+//        this.reply = reply;
+//        return this;
+//    }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here, do not remove
 
@@ -126,6 +143,7 @@ public class Message implements Serializable {
             ", text='" + getText() + "'" +
             ", user='" + getUser() + "'" +
             ", date='" + getDate() + "'" +
+            ", channel='" + getChannel() + "'" +
             "}";
     }
 }

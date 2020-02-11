@@ -1,6 +1,29 @@
-<div class="nb-theme-default">
-    <nb-chat  title="Livechat - Projet FIA" style="height:550px">
-        <nb-chat-message *ngFor="let msg of messages"
+
+<div class="nb-theme-dark">
+    <p class="lead">Vous êtes connecter. Profitez du livechat ;)</p>
+    <div>
+        <div *jhiHasAnyAuthority="'ROLE_ADMIN'">
+            <input type="radio" name="choice" value="G" (change)="setChannel($event);"checked> Général<br>
+            <input type="radio" name="choice" value="L3" (change)="setChannel($event);"> L3<br>
+            <input type="radio" name="choice" value="M1" (change)="setChannel($event);"> M1<br>
+            <input type="radio" name="choice" value="M2" (change)="setChannel($event);"> M2<br>
+        </div>
+        <div *jhiHasAnyAuthority="'ROLE_L3'">
+            <input type="radio" name="choice" value="G" (change)="setChannel($event);"> Général<br>
+            <input type="radio" name="choice" value="L3" (change)="setChannel($event);" checked> L3<br>
+        </div>
+        <div *jhiHasAnyAuthority="'ROLE_M1'">
+            <input type="radio" name="choice" value="G" (change)="setChannel($event);"> Général<br>
+            <input type="radio" name="choice" value="M1" (change)="setChannel($event);" checked> M1<br>
+        </div>
+        <div *jhiHasAnyAuthority="'ROLE_M2'">
+            <input type="radio" name="choice" value="G" (change)="setChannel($event);"> Général<br>
+            <input type="radio" name="choice" value="M2" (change)="setChannel($event);" checked> M2<br>
+        </div>
+    </div>
+    <nb-chat  title="Nebular Conversational UI">
+        <nb-chat-message id='chat-view'
+                         *ngFor="let msg of messages"
                          [message]="msg.text"
                          [sender]="msg.user"
                          [date]="msg.date"

@@ -3,9 +3,9 @@ export interface IMessage {
   user?: string;
   reply?: boolean;
   date?: Date;
-  //type?: string;
+  channel?: string;
 }
 
 export class Message implements IMessage {
-  constructor(public text?: string, public user?: string, public reply?: boolean, public date?: Date) {}
+  constructor(public text?: string, public user?: string, public date?: Date, public channel?: string) {}
 }

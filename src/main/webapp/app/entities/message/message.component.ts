@@ -2,7 +2,6 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { Subscription } from 'rxjs';
 import { JhiEventManager } from 'ng-jhipster';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { IMessage, Message } from 'app/shared/model/message.model';
 import { MessageService } from './message.service';
@@ -16,14 +15,11 @@ export class MessageComponent implements OnInit, OnDestroy {
   messages: IMessage[];
   eventSubscriber?: Subscription;
   userLogin?: string;
+  channel?: string;
 
-  constructor(
-    protected messageService: MessageService,
-    protected eventManager: JhiEventManager,
-    protected modalService: NgbModal,
-    protected accountService: AccountService
-  ) {
+  constructor(protected messageService: MessageService, protected eventManager: JhiEventManager, protected accountService: AccountService) {
     this.messages = [];
+    this.channel = 'G';
 
     this.accountService.identity().subscribe(account => {
       if (account) {
@@ -32,8 +28,34 @@ export class MessageComponent implements OnInit, OnDestroy {
     });
   }
 
+  updateDiv(): void {
+    const reloadInterval = 1000;
+    setInterval(() => {
+      this.getFlag();
+    }, reloadInterval);
+  }
+
+  getFlag(): void {
+    if (this.messages.length > 0) {
+      const datetime = this.messages[this.messages.length - 1].date!;
+      this.messageService
+        .query({ 'date.greaterThan': datetime.toString(), 'channel.equals': this.channel })
+        .subscribe((res: HttpResponse<IMessage[]>) => {
+          const newMessage = res.body ? res.body : [];
+          for (const m of newMessage) {
+            if (m.user === this.userLogin) {
+              m.reply = true;
+            } else {
+              m.reply = false;
+            }
+          }
+          this.messages.push(...newMessage);
+        });
+    }
+  }
+
   loadAll(): void {
-    this.messageService.query().subscribe((res: HttpResponse<IMessage[]>) => {
+    this.messageService.query({ 'channel.equals': this.channel }).subscribe((res: HttpResponse<IMessage[]>) => {
       this.messages = res.body ? res.body : [];
 
       for (const m of this.messages) {
@@ -49,6 +71,7 @@ export class MessageComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.loadAll();
     this.registerChangeInMessages();
+    this.updateDiv();
   }
 
   ngOnDestroy(): void {
@@ -62,10 +85,17 @@ export class MessageComponent implements OnInit, OnDestroy {
   }
 
   sendMessage($event: { message: string; files: File[] }): void {
-    this.messageService.create(new Message($event.message, this.userLogin, true, new Date())).subscribe((res: HttpResponse<IMessage>) => {
+    const date = new Date();
+    this.messageService.create(new Message($event.message, this.userLogin, date, this.channel)).subscribe((res: HttpResponse<IMessage>) => {
       if (res.body) {
+        res.body.reply = true;
         this.messages.push(res.body);
       }
     });
+  }
+
+  setChannel($event: any): void {
+    this.channel = $event.target.value;
+    this.loadAll();
   }
 }

@@ -1,54 +1,52 @@
 <div>
-    <h2 id="page-heading">
-        <span>Contacts</span>
-        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-contact" [routerLink]="['/contact/new']">
-            <fa-icon [icon]="'plus'"></fa-icon>
-            <span >
-            Create a new Contact
-            </span>
-        </button>
-    </h2>
     <jhi-alert-error></jhi-alert-error>
     <jhi-alert></jhi-alert>
     <br/>
     <div class="alert alert-warning" *ngIf="contacts?.length === 0">
-        <span>No contacts found</span>
+        <span>Aucun contact trouvé</span>
     </div>
-    <div class="table-responsive" *ngIf="contacts?.length > 0">
+    <div class="table-responsive tableFixHead" *ngIf="contacts?.length > 0">
         <table class="table table-striped" aria-describedby="page-heading">
             <thead>
             <tr>
-            <th scope="col" ><span>Nom</span></th>
-            <th scope="col" ><span>Mail</span></th>
-            <th scope="col" ><span>Telephone</span></th>
-            <th scope="col" ><span>Bureau</span></th>
-            <th scope="col"></th>
+            <th scope="col" class="enteteTableau"><span>Nom</span></th>
+            <th scope="col" class="enteteTableau"><span>Mail</span></th>
+            <th scope="col" class="enteteTableau"><span>Téléphone</span></th>
+            <th scope="col" class="enteteTableau"><span>Bureau</span></th>
+            <th scope="col" class="enteteTableau">
+                <button *jhiHasAnyAuthority="'ROLE_ADMIN'" id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-contact" [routerLink]="['/contact/new']">
+                    <fa-icon [icon]="'plus'"></fa-icon>
+                    <span>
+                        Ajouter un contact
+                    </span>
+                </button>
+            </th>
             </tr>
             </thead>
             <tbody>
-            <tr *ngFor="let contact of contacts ;trackBy: trackId">
+            <tr class="mat-row" *ngFor="let contact of contacts ;trackBy: trackId">
                 <td>{{contact.nom}}</td>
                 <td>{{contact.mail}}</td>
                 <td>{{contact.telephone}}</td>
                 <td>{{contact.bureau}}</td>
                 <td class="text-right">
                     <div class="btn-group">
-                        <button type="submit"
+                        <button *jhiHasAnyAuthority="'ROLE_ADMIN'" type="submit"
                                 [routerLink]="['/contact', contact.id, 'view' ]"
                                 class="btn btn-info btn-sm">
                             <fa-icon [icon]="'eye'"></fa-icon>
-                            <span class="d-none d-md-inline">View</span>
+                            <span class="d-none d-md-inline">Détails</span>
                         </button>
-                        <button type="submit"
+                        <button *jhiHasAnyAuthority="'ROLE_ADMIN'" type="submit"
                                 [routerLink]="['/contact', contact.id, 'edit']"
                                 class="btn btn-primary btn-sm">
                             <fa-icon [icon]="'pencil-alt'"></fa-icon>
-                            <span class="d-none d-md-inline">Edit</span>
+                            <span class="d-none d-md-inline">Modifier</span>
                         </button>
-                        <button type="submit" (click)="delete(contact)"
+                        <button *jhiHasAnyAuthority="'ROLE_ADMIN'" type="submit" (click)="delete(contact)"
                                 class="btn btn-danger btn-sm">
                             <fa-icon [icon]="'times'"></fa-icon>
-                            <span class="d-none d-md-inline">Delete</span>
+                            <span class="d-none d-md-inline">Supprimer</span>
                         </button>
                     </div>
                 </td>
@@ -58,3 +56,22 @@
     </div>
 </div>
 
+<style>
+  .mat-row:nth-child(even){
+    background-color:#D8D8D8;
+  }
+
+  .mat-row:nth-child(odd){
+    background-color:white;
+  }
+  .enteteTableau{
+    vertical-align:middle;
+  }
+  .tableFixHead { overflow-y: auto; height: 500px; }
+  .tableFixHead thead th { position: sticky; top: 0; }
+
+table  { border-collapse: collapse; width: 100%;}
+th, td { padding: 8px 16px; }
+th     { background:#eee; z-index: 2;}
+td { z-index: 1;}
+</style>

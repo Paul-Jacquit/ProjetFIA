@@ -1,19 +1,14 @@
 <div>
     <div [ngSwitch]="isAuthenticated()">
         <div *ngSwitchCase="true">
-            <div class="row">
-                <div class="col-lg-12 col-md-12 col-sm-12">
-                    <h1 class="display-4">Bienvenue sur le Projet FIA, {{account.login}}!</h1>
-                </div>
-            </div>
+            <p class="lead" style="text-align:center;">Bienvenue sur le Projet FIA, {{account.login}}!</p>
         </div>
-
-
     </div>
     <div [ngSwitch]="isAuthenticated()">
         <div *ngSwitchCase="false">
-            <p class="lead">Vous pouvez vous <a class="alert-link" (click)="login()">connecter ici</a>.</p>
+            <p class="lead" style="text-align:center;">Vous pouvez vous <a class="alert-link" (click)="login()">connecté ici</a>.</p>
         </div>
     </div>
+    <span class="banniere-img"></span>
 </div>
 

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { FormBuilder, Validators } from '@angular/forms';
@@ -14,6 +14,7 @@ import { InformationService } from './information.service';
 })
 export class InformationUpdateComponent implements OnInit {
   isSaving = false;
+  channel?: string;
 
   editForm = this.fb.group({
     id: [],
@@ -26,6 +27,10 @@ export class InformationUpdateComponent implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ information }) => {
       this.updateForm(information);
+      this.channel = information.get('channel');
+    });
+    this.activatedRoute.paramMap.subscribe(param => {
+      this.channel = param.get('channel')!;
     });
   }
 
@@ -56,7 +61,8 @@ export class InformationUpdateComponent implements OnInit {
       ...new Information(),
       id: this.editForm.get(['id'])!.value,
       titre: this.editForm.get(['titre'])!.value,
-      description: this.editForm.get(['description'])!.value
+      description: this.editForm.get(['description'])!.value,
+      channel: this.channel
     };
   }
 

@@ -56,7 +56,7 @@ export const informationRoute: Routes = [
     canActivate: [UserRouteAccessService]
   },
   {
-    path: 'new',
+    path: 'new/:channel',
     component: InformationUpdateComponent,
     resolve: {
       information: InformationResolve

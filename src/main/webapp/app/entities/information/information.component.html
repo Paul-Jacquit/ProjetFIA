@@ -1,7 +1,34 @@
 <div>
+    <h2 id="page-heading">
+        <span>Information</span>
+    </h2>
     <jhi-alert-error></jhi-alert-error>
     <jhi-alert></jhi-alert>
     <br/>
+    <div *jhiHasAnyAuthority="'ROLE_ADMIN'">
+        <input type="radio" name="choice" value="G" (change)="setChannel($event);"checked> Général<br>
+        <input type="radio" name="choice" value="L3" (change)="setChannel($event);"> L3<br>
+        <input type="radio" name="choice" value="M1" (change)="setChannel($event);"> M1<br>
+        <input type="radio" name="choice" value="M2" (change)="setChannel($event);"> M2<br>
+    </div>
+    <div *jhiHasAnyAuthority="'ROLE_L3'">
+        <input type="radio" name="choice" value="G" (change)="setChannel($event);"> Général<br>
+        <input type="radio" name="choice" value="L3" (change)="setChannel($event);" checked> L3<br>
+    </div>
+    <div *jhiHasAnyAuthority="'ROLE_M1'">
+        <input type="radio" name="choice" value="G" (change)="setChannel($event);"> Général<br>
+        <input type="radio" name="choice" value="M1" (change)="setChannel($event);" checked> M1<br>
+    </div>
+    <div *jhiHasAnyAuthority="'ROLE_M2'">
+        <input type="radio" name="choice" value="G" (change)="setChannel($event);"> Général<br>
+        <input type="radio" name="choice" value="M2" (change)="setChannel($event);" checked> M2<br>
+    </div>
+    <button *jhiHasAnyAuthority="'ROLE_ADMIN'" id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-information" [routerLink]="['/information/new', this.channel]">
+        <fa-icon [icon]="'plus'"></fa-icon>
+        <span >
+                        Ajouter
+        </span>
+    </button>
     <div class="alert alert-warning" *ngIf="information?.length === 0">
         <span>Aucune information trouvée</span>
     </div>
@@ -12,12 +39,6 @@
             <th scope="col" class="enteteTableau"><span>Titre</span></th>
             <th scope="col" class="enteteTableau"><span>Description</span></th>
             <th scope="col" class="enteteTableau">
-                <button *jhiHasAnyAuthority="'ROLE_ADMIN'" id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-information" [routerLink]="['/information/new']">
-                    <fa-icon [icon]="'plus'"></fa-icon>
-                    <span >
-                        Ajouter
-                    </span>
-                </button>
             </th>
             </tr>
             </thead>
@@ -49,6 +70,7 @@
             </tr>
             </tbody>
         </table>
+        </div>
     </div>
 </div>
 <style>

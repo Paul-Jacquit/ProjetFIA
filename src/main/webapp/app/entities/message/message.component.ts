@@ -16,6 +16,7 @@ export class MessageComponent implements OnInit, OnDestroy {
   eventSubscriber?: Subscription;
   userLogin?: string;
   channel?: string;
+  id?: any;
 
   constructor(protected messageService: MessageService, protected eventManager: JhiEventManager, protected accountService: AccountService) {
     this.messages = [];
@@ -30,7 +31,7 @@ export class MessageComponent implements OnInit, OnDestroy {
 
   updateDiv(): void {
     const reloadInterval = 1000;
-    setInterval(() => {
+    this.id = setInterval(() => {
       this.getFlag();
     }, reloadInterval);
   }
@@ -77,6 +78,9 @@ export class MessageComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     if (this.eventSubscriber) {
       this.eventManager.destroy(this.eventSubscriber);
+    }
+    if (this.id) {
+      clearInterval(this.id);
     }
   }
 

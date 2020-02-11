@@ -3,7 +3,10 @@ package projetfia.web.rest;
 import projetfia.ProjetFiaApp;
 import projetfia.domain.Information;
 import projetfia.repository.InformationRepository;
+import projetfia.service.InformationService;
 import projetfia.web.rest.errors.ExceptionTranslator;
+import projetfia.service.dto.InformationCriteria;
+import projetfia.service.InformationQueryService;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -43,6 +46,12 @@ public class InformationResourceIT {
     private InformationRepository informationRepository;
 
     @Autowired
+    private InformationService informationService;
+
+    @Autowired
+    private InformationQueryService informationQueryService;
+
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -64,7 +73,7 @@ public class InformationResourceIT {
     @BeforeEach
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final InformationResource informationResource = new InformationResource(informationRepository);
+        final InformationResource informationResource = new InformationResource(informationService, informationQueryService);
         this.restInformationMockMvc = MockMvcBuilders.standaloneSetup(informationResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -172,6 +181,217 @@ public class InformationResourceIT {
             .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION));
     }
 
+
+    @Test
+    @Transactional
+    public void getInformationByIdFiltering() throws Exception {
+        // Initialize the database
+        informationRepository.saveAndFlush(information);
+
+        Long id = information.getId();
+
+        defaultInformationShouldBeFound("id.equals=" + id);
+        defaultInformationShouldNotBeFound("id.notEquals=" + id);
+
+        defaultInformationShouldBeFound("id.greaterThanOrEqual=" + id);
+        defaultInformationShouldNotBeFound("id.greaterThan=" + id);
+
+        defaultInformationShouldBeFound("id.lessThanOrEqual=" + id);
+        defaultInformationShouldNotBeFound("id.lessThan=" + id);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllInformationByTitreIsEqualToSomething() throws Exception {
+        // Initialize the database
+        informationRepository.saveAndFlush(information);
+
+        // Get all the informationList where titre equals to DEFAULT_TITRE
+        defaultInformationShouldBeFound("titre.equals=" + DEFAULT_TITRE);
+
+        // Get all the informationList where titre equals to UPDATED_TITRE
+        defaultInformationShouldNotBeFound("titre.equals=" + UPDATED_TITRE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllInformationByTitreIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        informationRepository.saveAndFlush(information);
+
+        // Get all the informationList where titre not equals to DEFAULT_TITRE
+        defaultInformationShouldNotBeFound("titre.notEquals=" + DEFAULT_TITRE);
+
+        // Get all the informationList where titre not equals to UPDATED_TITRE
+        defaultInformationShouldBeFound("titre.notEquals=" + UPDATED_TITRE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllInformationByTitreIsInShouldWork() throws Exception {
+        // Initialize the database
+        informationRepository.saveAndFlush(information);
+
+        // Get all the informationList where titre in DEFAULT_TITRE or UPDATED_TITRE
+        defaultInformationShouldBeFound("titre.in=" + DEFAULT_TITRE + "," + UPDATED_TITRE);
+
+        // Get all the informationList where titre equals to UPDATED_TITRE
+        defaultInformationShouldNotBeFound("titre.in=" + UPDATED_TITRE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllInformationByTitreIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        informationRepository.saveAndFlush(information);
+
+        // Get all the informationList where titre is not null
+        defaultInformationShouldBeFound("titre.specified=true");
+
+        // Get all the informationList where titre is null
+        defaultInformationShouldNotBeFound("titre.specified=false");
+    }
+                @Test
+    @Transactional
+    public void getAllInformationByTitreContainsSomething() throws Exception {
+        // Initialize the database
+        informationRepository.saveAndFlush(information);
+
+        // Get all the informationList where titre contains DEFAULT_TITRE
+        defaultInformationShouldBeFound("titre.contains=" + DEFAULT_TITRE);
+
+        // Get all the informationList where titre contains UPDATED_TITRE
+        defaultInformationShouldNotBeFound("titre.contains=" + UPDATED_TITRE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllInformationByTitreNotContainsSomething() throws Exception {
+        // Initialize the database
+        informationRepository.saveAndFlush(information);
+
+        // Get all the informationList where titre does not contain DEFAULT_TITRE
+        defaultInformationShouldNotBeFound("titre.doesNotContain=" + DEFAULT_TITRE);
+
+        // Get all the informationList where titre does not contain UPDATED_TITRE
+        defaultInformationShouldBeFound("titre.doesNotContain=" + UPDATED_TITRE);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllInformationByDescriptionIsEqualToSomething() throws Exception {
+        // Initialize the database
+        informationRepository.saveAndFlush(information);
+
+        // Get all the informationList where description equals to DEFAULT_DESCRIPTION
+        defaultInformationShouldBeFound("description.equals=" + DEFAULT_DESCRIPTION);
+
+        // Get all the informationList where description equals to UPDATED_DESCRIPTION
+        defaultInformationShouldNotBeFound("description.equals=" + UPDATED_DESCRIPTION);
+    }
+
+    @Test
+    @Transactional
+    public void getAllInformationByDescriptionIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        informationRepository.saveAndFlush(information);
+
+        // Get all the informationList where description not equals to DEFAULT_DESCRIPTION
+        defaultInformationShouldNotBeFound("description.notEquals=" + DEFAULT_DESCRIPTION);
+
+        // Get all the informationList where description not equals to UPDATED_DESCRIPTION
+        defaultInformationShouldBeFound("description.notEquals=" + UPDATED_DESCRIPTION);
+    }
+
+    @Test
+    @Transactional
+    public void getAllInformationByDescriptionIsInShouldWork() throws Exception {
+        // Initialize the database
+        informationRepository.saveAndFlush(information);
+
+        // Get all the informationList where description in DEFAULT_DESCRIPTION or UPDATED_DESCRIPTION
+        defaultInformationShouldBeFound("description.in=" + DEFAULT_DESCRIPTION + "," + UPDATED_DESCRIPTION);
+
+        // Get all the informationList where description equals to UPDATED_DESCRIPTION
+        defaultInformationShouldNotBeFound("description.in=" + UPDATED_DESCRIPTION);
+    }
+
+    @Test
+    @Transactional
+    public void getAllInformationByDescriptionIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        informationRepository.saveAndFlush(information);
+
+        // Get all the informationList where description is not null
+        defaultInformationShouldBeFound("description.specified=true");
+
+        // Get all the informationList where description is null
+        defaultInformationShouldNotBeFound("description.specified=false");
+    }
+                @Test
+    @Transactional
+    public void getAllInformationByDescriptionContainsSomething() throws Exception {
+        // Initialize the database
+        informationRepository.saveAndFlush(information);
+
+        // Get all the informationList where description contains DEFAULT_DESCRIPTION
+        defaultInformationShouldBeFound("description.contains=" + DEFAULT_DESCRIPTION);
+
+        // Get all the informationList where description contains UPDATED_DESCRIPTION
+        defaultInformationShouldNotBeFound("description.contains=" + UPDATED_DESCRIPTION);
+    }
+
+    @Test
+    @Transactional
+    public void getAllInformationByDescriptionNotContainsSomething() throws Exception {
+        // Initialize the database
+        informationRepository.saveAndFlush(information);
+
+        // Get all the informationList where description does not contain DEFAULT_DESCRIPTION
+        defaultInformationShouldNotBeFound("description.doesNotContain=" + DEFAULT_DESCRIPTION);
+
+        // Get all the informationList where description does not contain UPDATED_DESCRIPTION
+        defaultInformationShouldBeFound("description.doesNotContain=" + UPDATED_DESCRIPTION);
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is returned.
+     */
+    private void defaultInformationShouldBeFound(String filter) throws Exception {
+        restInformationMockMvc.perform(get("/api/information?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(information.getId().intValue())))
+            .andExpect(jsonPath("$.[*].titre").value(hasItem(DEFAULT_TITRE)))
+            .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION)));
+
+        // Check, that the count call also returns 1
+        restInformationMockMvc.perform(get("/api/information/count?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().string("1"));
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is not returned.
+     */
+    private void defaultInformationShouldNotBeFound(String filter) throws Exception {
+        restInformationMockMvc.perform(get("/api/information?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$").isEmpty());
+
+        // Check, that the count call also returns 0
+        restInformationMockMvc.perform(get("/api/information/count?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().string("0"));
+    }
+
+
     @Test
     @Transactional
     public void getNonExistingInformation() throws Exception {
@@ -184,7 +404,7 @@ public class InformationResourceIT {
     @Transactional
     public void updateInformation() throws Exception {
         // Initialize the database
-        informationRepository.saveAndFlush(information);
+        informationService.save(information);
 
         int databaseSizeBeforeUpdate = informationRepository.findAll().size();
 
@@ -231,7 +451,7 @@ public class InformationResourceIT {
     @Transactional
     public void deleteInformation() throws Exception {
         // Initialize the database
-        informationRepository.saveAndFlush(information);
+        informationService.save(information);
 
         int databaseSizeBeforeDelete = informationRepository.findAll().size();
 

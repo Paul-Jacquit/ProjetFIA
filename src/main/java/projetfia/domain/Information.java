@@ -26,6 +26,9 @@ public class Information implements Serializable {
     @Column(name = "description")
     private String description;
 
+    @Column(name = "channel")
+    private String channel;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here, do not remove
     public Long getId() {
         return id;
@@ -55,6 +58,14 @@ public class Information implements Serializable {
     public Information description(String description) {
         this.description = description;
         return this;
+    }
+
+    public String getChannel() {
+        return channel;
+    }
+
+    public void setChannel(String channel) {
+        this.channel = channel;
     }
 
     public void setDescription(String description) {

@@ -15,15 +15,14 @@ import { InformationDeleteDialogComponent } from './information-delete-dialog.co
 export class InformationComponent implements OnInit, OnDestroy {
   information?: IInformation[];
   eventSubscriber?: Subscription;
+  channel: string;
 
-  constructor(
-    protected informationService: InformationService,
-    protected eventManager: JhiEventManager,
-    protected modalService: NgbModal
-  ) {}
+  constructor(protected informationService: InformationService, protected eventManager: JhiEventManager, protected modalService: NgbModal) {
+    this.channel = 'G';
+  }
 
   loadAll(): void {
-    this.informationService.query().subscribe((res: HttpResponse<IInformation[]>) => {
+    this.informationService.query({ 'channel.equals': this.channel }).subscribe((res: HttpResponse<IInformation[]>) => {
       this.information = res.body ? res.body : [];
     });
   }
@@ -51,5 +50,10 @@ export class InformationComponent implements OnInit, OnDestroy {
   delete(information: IInformation): void {
     const modalRef = this.modalService.open(InformationDeleteDialogComponent, { size: 'lg', backdrop: 'static' });
     modalRef.componentInstance.information = information;
+  }
+
+  setChannel($event: any): void {
+    this.channel = $event.target.value;
+    this.loadAll();
   }
 }

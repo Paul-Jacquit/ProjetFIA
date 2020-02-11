@@ -14,10 +14,29 @@
     <div class="alert alert-warning" *ngIf="information?.length === 0">
         <span>No information found</span>
     </div>
+    <div *jhiHasAnyAuthority="'ROLE_ADMIN'">
+        <input type="radio" name="choice" value="G" (change)="setChannel($event);"checked> Général<br>
+        <input type="radio" name="choice" value="L3" (change)="setChannel($event);"> L3<br>
+        <input type="radio" name="choice" value="M1" (change)="setChannel($event);"> M1<br>
+        <input type="radio" name="choice" value="M2" (change)="setChannel($event);"> M2<br>
+    </div>
+    <div *jhiHasAnyAuthority="'ROLE_L3'">
+        <input type="radio" name="choice" value="G" (change)="setChannel($event);"> Général<br>
+        <input type="radio" name="choice" value="L3" (change)="setChannel($event);" checked> L3<br>
+    </div>
+    <div *jhiHasAnyAuthority="'ROLE_M1'">
+        <input type="radio" name="choice" value="G" (change)="setChannel($event);"> Général<br>
+        <input type="radio" name="choice" value="M1" (change)="setChannel($event);" checked> M1<br>
+    </div>
+    <div *jhiHasAnyAuthority="'ROLE_M2'">
+        <input type="radio" name="choice" value="G" (change)="setChannel($event);"> Général<br>
+        <input type="radio" name="choice" value="M2" (change)="setChannel($event);" checked> M2<br>
+    </div>
     <div class="table-responsive" *ngIf="information?.length > 0">
         <table class="table table-striped" aria-describedby="page-heading">
             <thead>
             <tr>
+            <th scope="col" ><span>ID</span></th>
             <th scope="col" ><span>Titre</span></th>
             <th scope="col" ><span>Description</span></th>
             <th scope="col"></th>

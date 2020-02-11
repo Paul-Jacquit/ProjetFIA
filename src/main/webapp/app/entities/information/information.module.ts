@@ -11,7 +11,6 @@ import { informationRoute } from './information.route';
 @NgModule({
   imports: [ProjetFiaSharedModule, RouterModule.forChild(informationRoute)],
   declarations: [InformationComponent, InformationDetailComponent, InformationUpdateComponent, InformationDeleteDialogComponent],
-  exports: [InformationComponent, InformationDetailComponent, InformationDeleteDialogComponent, InformationUpdateComponent],
   entryComponents: [InformationDeleteDialogComponent]
 })
 export class ProjetFiaInformationModule {}

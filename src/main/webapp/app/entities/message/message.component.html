@@ -1,6 +1,4 @@
-
-<div class="nb-theme-dark">
-    <p class="lead">Vous êtes connecter. Profitez du livechat ;)</p>
+<div class="nb-theme-default">
     <div>
         <div *jhiHasAnyAuthority="'ROLE_ADMIN'">
             <input type="radio" name="choice" value="G" (change)="setChannel($event);"checked> Général<br>
@@ -21,7 +19,7 @@
             <input type="radio" name="choice" value="M2" (change)="setChannel($event);" checked> M2<br>
         </div>
     </div>
-    <nb-chat  title="Nebular Conversational UI">
+    <nb-chat  title="Livechat - Projet FIA" style="height:100%">
         <nb-chat-message id='chat-view'
                          *ngFor="let msg of messages"
                          [message]="msg.text"
@@ -33,3 +31,8 @@
         </nb-chat-form>
     </nb-chat>
 </div>
+<style>
+    radio {
+
+    }
+</style>

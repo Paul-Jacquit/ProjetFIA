@@ -71,7 +71,7 @@ export class Menu_RuComponent implements OnInit, OnDestroy {
     document.getElementById("menuAdministratif")!.innerHTML = administratifArray[1];
     let soirArray = menuArray[6].split("<ul");
     soirArray[1] = "<ul" + soirArray[1];
-    document.getElementById("titreSoir")!.innerHTML = "<h4>Midi - " + laDateFormat + " " + soirArray[0];
+    document.getElementById("titreSoir")!.innerHTML = "<h4>Soir - " + laDateFormat + " " + soirArray[0];
     document.getElementById("menuSoir")!.innerHTML = soirArray[1];
     return "";
   }

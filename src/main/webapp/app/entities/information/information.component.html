@@ -23,23 +23,37 @@
         <input type="radio" name="choice" value="G" (change)="setChannel($event);"> Général<br>
         <input type="radio" name="choice" value="M2" (change)="setChannel($event);" checked> M2<br>
     </div>
-    <button *jhiHasAnyAuthority="'ROLE_ADMIN'" id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-information" [routerLink]="['/information/new', this.channel]">
-        <fa-icon [icon]="'plus'"></fa-icon>
-        <span >
-                        Ajouter
-        </span>
-    </button>
+
     <div class="alert alert-warning" *ngIf="information?.length === 0">
-        <span>Aucune information trouvée</span>
+        <div class="row">
+            <div class="col-9">
+                <span class="titreAlign">Aucune information trouvée.</span>
+            </div>
+
+            <div class="col-3">
+                <button *jhiHasAnyAuthority="'ROLE_ADMIN'" id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-information" [routerLink]="['/information/new', this.channel]">
+                    <fa-icon [icon]="'plus'"></fa-icon>
+                    <span >
+                    Ajouter
+                </span>
+                </button>
+            </div>
+        </div>
     </div>
     <div class="table-responsive tableFixHead" *ngIf="information?.length > 0">
         <table class="table table-striped" aria-describedby="page-heading">
             <thead>
             <tr>
-            <th scope="col" class="enteteTableau"><span>Titre</span></th>
-            <th scope="col" class="enteteTableau"><span>Description</span></th>
-            <th scope="col" class="enteteTableau">
-            </th>
+                <th scope="col" class="enteteTableau"><span>Titre</span></th>
+                <th scope="col" class="enteteTableau"><span>Description</span></th>
+                <th scope="col" class="enteteTableau">
+                    <button *jhiHasAnyAuthority="'ROLE_ADMIN'" id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-information" [routerLink]="['/information/new', this.channel]">
+                        <fa-icon [icon]="'plus'"></fa-icon>
+                        <span >
+                            Ajouter
+                        </span>
+                    </button>
+                </th>
             </tr>
             </thead>
             <tbody>
@@ -87,8 +101,14 @@
   .tableFixHead { overflow-y: auto; height: 500px; }
   .tableFixHead thead th { position: sticky; top: 0; }
 
-table  { border-collapse: collapse; width: 100%;}
-th, td { padding: 8px 16px; }
-th     { background:#eee; z-index: 2;}
-td { z-index: 1;}
+    table  { border-collapse: collapse; width: 100%;}
+    th, td { padding: 8px 16px; }
+    th     { background:#eee; z-index: 2;}
+    td { z-index: 1;}
+
+    .titreAlign {
+        text-align:center;
+        vertical-align:middle!important;
+        display:inline-block;
+    }
 </style>

@@ -14,7 +14,6 @@
     <property name="uuidType" value="varchar(36)" dbms="h2, mysql, mariadb"/>
 
     <include file="config/liquibase/changelog/00000000000000_initial_schema.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20200113140034_added_entity_Calendar.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20200117140328_added_entity_Message.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20200130131103_added_entity_Contact.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20200130131256_added_entity_Information.xml" relativeToChangelogFile="false"/>
